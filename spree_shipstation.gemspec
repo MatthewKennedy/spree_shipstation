@@ -34,7 +34,6 @@ Gem::Specification.new do |spec|
   spec.add_dependency "spree_backend", spree_version
   spec.add_dependency "spree_extension"
 
-  spec.add_development_dependency 'rails-controller-testing'
   spec.add_development_dependency 'rspec-xsd'
   spec.add_development_dependency "spree_dev_tools"
 end
