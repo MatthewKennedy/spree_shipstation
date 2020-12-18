@@ -10,7 +10,7 @@ require "spree_dev_tools/rspec/spec_helper"
 Dir[File.join(File.dirname(__FILE__), "support/**/*.rb")].sort.each { |f| require f }
 
 # Requires factories defined in lib/spree_shipstation/factories.rb
-require 'spree_shipstation/factories'
+require "spree_shipstation/factories"
 
 RSpec.configure do |config|
   config.infer_spec_type_from_file_location!

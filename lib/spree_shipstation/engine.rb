@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
-require 'spree_core'
-require 'spree_shipstation'
+require "spree_core"
+require "spree_shipstation"
 
 module SpreeShipstation
   class Engine < Rails::Engine
     isolate_namespace Spree
-    engine_name 'spree_shipstation'
+    engine_name "spree_shipstation"
 
     # use rspec for tests
     config.generators do |g|

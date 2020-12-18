@@ -1,28 +1,27 @@
 # frozen_string_literal: true
 
 RSpec.describe SpreeShipstation::ShipmentNotice do
-  describe '#apply' do
-    context 'when capture_at_notification is true' do
-      context 'when the order is paid' do
-        it 'ships the order successfully' do
-          
+  describe "#apply" do
+    context "when capture_at_notification is true" do
+      context "when the order is paid" do
+        it "ships the order successfully" do
           stub_configuration(capture_at_notification: true)
           order = create_order_ready_to_ship(paid: true)
 
-          shipment_notice = build_shipment_notice(order.shipments.first, shipment_tracking: '1Z1231234')
+          shipment_notice = build_shipment_notice(order.shipments.first, shipment_tracking: "1Z1231234")
           shipment_notice.apply
 
           expect_order_to_be_shipped(order)
         end
       end
 
-      context 'when the order is not paid' do
-        context 'when the payments can be captured successfully' do
-          it 'pays the order successfully' do
+      context "when the order is not paid" do
+        context "when the payments can be captured successfully" do
+          it "pays the order successfully" do
             stub_configuration(capture_at_notification: true)
             order = create_order_ready_to_ship(paid: false)
 
-            shipment_notice = build_shipment_notice(order.shipments.first, shipment_tracking: '1Z1231234')
+            shipment_notice = build_shipment_notice(order.shipments.first, shipment_tracking: "1Z1231234")
             shipment_notice.apply
 
             order.reload
@@ -30,19 +29,19 @@ RSpec.describe SpreeShipstation::ShipmentNotice do
             expect(order.reload).to be_paid
           end
 
-          it 'ships the order successfully' do
+          it "ships the order successfully" do
             stub_configuration(capture_at_notification: true)
             order = create_order_ready_to_ship(paid: false)
 
-            shipment_notice = build_shipment_notice(order.shipments.first, shipment_tracking: '1Z1231234')
+            shipment_notice = build_shipment_notice(order.shipments.first, shipment_tracking: "1Z1231234")
             shipment_notice.apply
 
             expect_order_to_be_shipped(order)
           end
         end
 
-        context 'when the a payment cannot be captured' do
-          it 'raises a PaymentError' do
+        context "when the a payment cannot be captured" do
+          it "raises a PaymentError" do
             stub_configuration(capture_at_notification: true)
             order = create_order_ready_to_ship(paid: false)
             allow_any_instance_of(Spree::Payment).to receive(:capture!).and_raise(Spree::Core::GatewayError)
@@ -57,21 +56,21 @@ RSpec.describe SpreeShipstation::ShipmentNotice do
       end
     end
 
-    context 'when capture_at_notification is false' do
-      context 'when the order is paid' do
-        it 'ships the order successfully' do
+    context "when capture_at_notification is false" do
+      context "when the order is paid" do
+        it "ships the order successfully" do
           stub_configuration(capture_at_notification: true)
           order = create_order_ready_to_ship(paid: false)
 
-          shipment_notice = build_shipment_notice(order.shipments.first, shipment_tracking: '1Z1231234')
+          shipment_notice = build_shipment_notice(order.shipments.first, shipment_tracking: "1Z1231234")
           shipment_notice.apply
 
           expect_order_to_be_shipped(order)
         end
       end
 
-      context 'when the order is not paid' do
-        it 'raises an OrderNotPaidError' do
+      context "when the order is not paid" do
+        it "raises an OrderNotPaidError" do
           stub_configuration(capture_at_notification: false)
           order = create_order_ready_to_ship(paid: false)
 
@@ -89,18 +88,18 @@ RSpec.describe SpreeShipstation::ShipmentNotice do
     order = create(:order_ready_to_ship)
 
     unless paid
-      order.payments.update_all(state: 'pending')
-  
+      order.payments.update_all(state: "pending")
+
       order.update_with_updater!
     end
 
     order
   end
 
-  def build_shipment_notice(shipment, shipment_tracking: '1Z1231234')
+  def build_shipment_notice(shipment, shipment_tracking: "1Z1231234")
     SpreeShipstation::ShipmentNotice.new(
       shipment_number: shipment.number,
-      shipment_tracking: shipment_tracking,
+      shipment_tracking: shipment_tracking
     )
   end
 
@@ -108,7 +107,7 @@ RSpec.describe SpreeShipstation::ShipmentNotice do
     order.reload
     expect(order.shipments.first).to be_shipped
     expect(order.shipments.first.shipped_at).not_to be_nil
-    expect(order.shipments.first.tracking).to eq('1Z1231234')
-    expect(order.shipments.first.tracking).to eq('1Z1231234')
+    expect(order.shipments.first.tracking).to eq("1Z1231234")
+    expect(order.shipments.first.tracking).to eq("1Z1231234")
   end
 end
