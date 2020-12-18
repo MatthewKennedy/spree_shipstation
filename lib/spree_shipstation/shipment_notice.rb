@@ -51,9 +51,12 @@ module SpreeShipstation
 
     def ship_shipment
       shipment.update_attribute(:tracking, shipment_tracking)
-      shipment.reload.ship!
-      shipment.touch :shipped_at
-      shipment.update!(shipment.order)
+
+      unless shipment.shipped?
+        shipment.reload.ship!
+        shipment.touch :shipped_at
+        shipment.update!(shipment.order)
+      end
     end
   end
 end
