@@ -35,8 +35,8 @@ module Spree
 
     def authenticate_shipstation
       authenticate_or_request_with_http_basic do |username, password|
-        username == ::Spree::Config.shipstation_username &&
-          password == ::Spree::Config.shipstation_password
+        username == SpreeShipstation.configuration.username &&
+          password == SpreeShipstation.configuration.password
       end
     end
   end

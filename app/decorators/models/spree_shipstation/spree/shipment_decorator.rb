@@ -13,11 +13,11 @@ module SpreeShipstation
                   .joins(:order)
                   .merge(::Spree::Order.complete)
 
-          unless ::Spree::Config.shipstation_capture_at_notification
+          unless SpreeShipstation.configuration.capture_at_notification
             query = query.where(spree_shipments: { state: ['ready', 'canceled'] })
           end
 
-          unless ::Spree::Config.shipstation_export_canceled_shipments
+          unless SpreeShipstation.configuration.export_canceled_shipments
             query = query.where.not(spree_shipments: { state: 'canceled' })
           end
 

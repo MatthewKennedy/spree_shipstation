@@ -32,8 +32,7 @@ RSpec.describe Spree::Shipment do
   describe '.exportable' do
     context 'when capture_at_notification is false and export_canceled_shipments is false' do
       it 'returns ready shipments from complete orders' do
-        Spree::Config.shipstation_capture_at_notification = false
-        Spree::Config.shipstation_export_canceled_shipments = false
+        stub_configuration(capture_at_notification: false, export_canceled_shipments: false)
 
         ready_shipment = create(:order_ready_to_ship).shipments.first
         create(:order_ready_to_ship) { |o| o.shipments.first.cancel! }
@@ -45,8 +44,7 @@ RSpec.describe Spree::Shipment do
 
     context 'when capture_at_notification is true and export_canceled_shipments is false' do
       it 'returns non-canceled shipments from complete orders' do
-        Spree::Config.shipstation_capture_at_notification = true
-        Spree::Config.shipstation_export_canceled_shipments = false
+        stub_configuration(capture_at_notification: true, export_canceled_shipments: false)
 
         ready_shipment = create(:order_ready_to_ship).shipments.first
         shipped_shipment = create(:shipped_order).shipments.first
@@ -58,8 +56,7 @@ RSpec.describe Spree::Shipment do
 
     context 'when capture_at_notification is false and export_canceled_shipments is true' do
       it 'returns ready and canceled shipments from complete orders' do
-        Spree::Config.shipstation_capture_at_notification = false
-        Spree::Config.shipstation_export_canceled_shipments = true
+        stub_configuration(capture_at_notification: false, export_canceled_shipments: true)
 
         ready_shipment = create(:order_ready_to_ship).shipments.first
         canceled_shipment = create(:order_ready_to_ship).shipments.first
@@ -72,8 +69,7 @@ RSpec.describe Spree::Shipment do
 
     context 'when capture_at_notification is true and export_canceled_shipments is true' do
       it 'returns all shipments from complete orders' do
-        Spree::Config.shipstation_capture_at_notification = true
-        Spree::Config.shipstation_export_canceled_shipments = true
+        stub_configuration(capture_at_notification: true, export_canceled_shipments: true)
 
         ready_shipment = create(:order_ready_to_ship).shipments.first
         canceled_shipment = create(:order_ready_to_ship).shipments.first
