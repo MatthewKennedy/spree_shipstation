@@ -40,7 +40,7 @@
                            <xs:element type="String100" name="City" minOccurs="0"/>
                            <xs:element type="String100" name="State" minOccurs="0"/>
                            <xs:element type="String50" name="PostalCode" minOccurs="0"/>
-<xs:element type="StringExactly2" name="Country" minOccurs="0"/>
+                           <xs:element type="String50" name="Country" minOccurs="0"/>
                         </xs:all>
                       </xs:complexType>
                     </xs:element>
@@ -54,7 +54,7 @@
                           <xs:element type="String100" name="City"/>
                           <xs:element type="String100" name="State" minOccurs="0"/>
                           <xs:element type="String50" name="PostalCode" minOccurs="1"/>
-                          <xs:element type="StringExactly2" name="Country"/>
+                          <xs:element type="String50" name="Country"/>
                           <xs:element type="String50" name="Phone" minOccurs="0"/>
                         </xs:all>
                       </xs:complexType>
