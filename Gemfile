@@ -13,4 +13,3 @@ gem "rails-controller-testing"
 gemspec
 
 gem "standard"
-
