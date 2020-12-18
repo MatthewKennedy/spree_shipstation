@@ -1,4 +1,4 @@
-require 'rspec/xsd'
+require "rspec/xsd"
 
 RSpec.configure do |config|
   config.include RSpec::XSD

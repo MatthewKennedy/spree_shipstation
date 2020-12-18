@@ -1,4 +1,6 @@
 # spree_shipstation
+![CI](https://github.com/MatthewKennedy/spree_shipstation/workflows/CI/badge.svg)
+![Standard Rb](https://github.com/MatthewKennedy/spree_shipstation/workflows/Standard%20Rb/badge.svg)
 
 This gem integrates [ShipStation](http://www.shipstation.com) with [Spree](http://spree.). It
 enables ShipStation to pull shipments from the system and update tracking numbers.

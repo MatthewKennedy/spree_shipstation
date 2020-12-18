@@ -8,7 +8,7 @@ module SpreeShipstation
       def from_payload(params)
         new(
           shipment_number: params[:order_number],
-          shipment_tracking: params[:tracking_number],
+          shipment_tracking: params[:tracking_number]
         )
       end
     end
@@ -37,7 +37,7 @@ module SpreeShipstation
 
     def process_payment
       return if shipment.order.paid?
-      
+
       unless SpreeShipstation.configuration.capture_at_notification
         raise OrderNotPaidError, shipment.order
       end

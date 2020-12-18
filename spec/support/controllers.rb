@@ -1,1 +1,1 @@
-require 'rails-controller-testing'
+require "rails-controller-testing"

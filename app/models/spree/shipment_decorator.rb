@@ -9,15 +9,15 @@ module Spree
     module ClassMethods
       def exportable
         query = order(:updated_at)
-                .joins(:order)
-                .merge(::Spree::Order.complete)
+          .joins(:order)
+          .merge(::Spree::Order.complete)
 
         unless SpreeShipstation.configuration.capture_at_notification
-          query = query.where(spree_shipments: { state: ['ready', 'canceled'] })
+          query = query.where(spree_shipments: {state: ["ready", "canceled"]})
         end
 
         unless SpreeShipstation.configuration.export_canceled_shipments
-          query = query.where.not(spree_shipments: { state: 'canceled' })
+          query = query.where.not(spree_shipments: {state: "canceled"})
         end
 
         query

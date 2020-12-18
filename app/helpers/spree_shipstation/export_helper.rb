@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-require 'builder'
+require "builder"
 
 module SpreeShipstation
   module ExportHelper
-    DATE_FORMAT = '%m/%d/%Y %H:%M'
+    DATE_FORMAT = "%m/%d/%Y %H:%M"
 
     # rubocop:disable all
     def self.address(xml, order, type)
