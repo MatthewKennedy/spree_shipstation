@@ -1,10 +1,12 @@
 module ConfigurationHelper
   def stub_configuration(options)
-    # allow(Spree.configuration).to receive_messages(options)
+    allow(SpreeShipstation.configuration).to receive_messages(options)
 
-    # if options[:capture_at_notification]
-    #   Config.shipstation_require_payment_to_ship = false
-    # end
+    if options[:capture_at_notification]
+      reset_spree_preferences do |config|
+        config.auto_capture_on_dispatch = false
+      end
+    end
   end
 end
 

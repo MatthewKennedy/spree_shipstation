@@ -15,9 +15,4 @@ require 'spree_shipstation/factories'
 RSpec.configure do |config|
   config.infer_spec_type_from_file_location!
   config.use_transactional_fixtures = false
-
-  # TODO
-  # if Spree.spree_gem_version < Gem::Version.new('2.11')
-  #   config.extend Spree::TestingSupport::AuthorizationHelpers::Request, type: :system
-  # end
 end

@@ -97,9 +97,7 @@ RSpec.describe Spree::ShipstationController do
   end
 
   def stub_shipstation_auth(username = 'mario', password = 'lemieux')
-    Spree::Config.shipstation_username = username
-    Spree::Config.shipstation_password = password
-
+    stub_configuration(username: username, password: password)
     request.headers['Authorization'] = ActionController::HttpAuthentication::Basic.encode_credentials(username, password)
   end
 end
