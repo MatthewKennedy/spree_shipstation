@@ -4,5 +4,6 @@ source "https://rubygems.org"
 
 gem "spree", branch: "3-7-stable", git: "https://github.com/spree/spree.git"
 gem "rails-controller-testing"
+gem "sass-rails"
 
 gemspec path: "../"
