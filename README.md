@@ -8,25 +8,32 @@ This Spree extension integrates [ShipStation](https://www.shipstation.com) with 
 
 1. Add this extension to your Gemfile with this line:
 
-    ```ruby
-    gem 'spree_shipstation', github: 'matthewkennedy/spree_shipstation'
-    ```
+```ruby
+gem 'spree_shipstation', github: 'matthewkennedy/spree_shipstation'
+```
 
 2. Install the gem using Bundler
 
-    ```ruby
-    bundle install
-    ```
+```shell
+bundle install
+```
 
 3. Copy & run install the generator
 
-    ```shell
-    bundle exec rails generate spree_shipstation:install
-    ```
+```shell
+bundle exec rails generate spree_shipstation:install
+```
 
 4. Restart your server
 
-  If your server was running, restart it so that it can find the assets properly.
+If your server was running, restart it so that it can find the assets properly.
+
+
+## Configuration
+
+### Configuring spree_shipstation
+
+Configure your ShipStation integration:
 
 ```ruby
 # config/initializers/spree_shipstation.rb
