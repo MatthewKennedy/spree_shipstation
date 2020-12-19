@@ -36,4 +36,5 @@ Gem::Specification.new do |spec|
 
   spec.add_development_dependency "rspec-xsd"
   spec.add_development_dependency "spree_dev_tools"
+  spec.add_development_dependency "standard"
 end

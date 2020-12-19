@@ -40,7 +40,7 @@ SpreeShipstation.configure do |config|
   config.password = "set-a-new-password"
 
   # Capture payment when ShipStation notifies a shipping label creation.
-  # Set this to `true` and `Spree::Configrequire_payment_to_ship` to `false` if you
+  # Set this to `true` and `config.auto_capture_on_dispatch = true` if you
   # want to charge your customers at the time of shipment.
   config.capture_at_notification = false
 
