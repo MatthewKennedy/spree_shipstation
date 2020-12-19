@@ -43,6 +43,8 @@ jobs:
       matrix:
         ruby: ['2.5','2.6', '2.7']
         gemfile:
+          - spree_3_7
+          - spree_4_1
           - spree_4_2
           - spree_master
     env:
@@ -80,6 +82,8 @@ jobs:
       matrix:
         ruby: ['2.5','2.6', '2.7']
         gemfile:
+          - spree_3_7
+          - spree_4_1
           - spree_4_2
           - spree_master
     env:
