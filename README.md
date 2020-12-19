@@ -2,29 +2,31 @@
 ![CI](https://github.com/MatthewKennedy/spree_shipstation/workflows/CI/badge.svg)
 ![Standard Rb](https://github.com/MatthewKennedy/spree_shipstation/workflows/Standard%20Rb/badge.svg)
 
-This Spree extension integrates [ShipStation](https://www.shipstation.com) with [Spree](https://spreecommerce.org). It enables ShipStation to pull shipments from the Spree and update tracking numbers.
+This Spree extension integrates [ShipStation](https://www.shipstation.com) with [Spree](https://spreecommerce.org), allowing ShipStation to pull shipments from Spree and update tracking numbers.
 
 ## Installation
 
-Add spree_shipstation to your Gemfile:
+1. Add this extension to your Gemfile with this line:
 
-```ruby
-gem 'spree_shipstation', github: 'matthewkennedy/spree_shipstation'
-```
+    ```ruby
+    gem 'spree_shipstation', github: 'matthewkennedy/spree_shipstation'
+    ```
 
-Bundle your dependencies and run the installation generator:
+2. Install the gem using Bundler
 
-```shell
-bundle exec rails generate spree_shipstation:install
+    ```ruby
+    bundle install
+    ```
 
-# Generates the spree_shipstation.rb file => config/initializers/spree_shipstation.rb
-```
+3. Copy & run install the generator
 
-## Configuration
+    ```shell
+    bundle exec rails generate spree_shipstation:install
+    ```
 
-### Configuring Spree
+4. Restart your server
 
-Once installed you will find the `spree_shipstation.rb` file located in the `config/initializers` folder.
+  If your server was running, restart it so that it can find the assets properly.
 
 ```ruby
 # config/initializers/spree_shipstation.rb
@@ -49,7 +51,7 @@ SpreeShipstation.configure do |config|
 end
 ```
 
-If you are using `config.capture_at_notification = true` add the following config to the `spree.rb` initializer file:
+If you are using `config.capture_at_notification = true` add the following config to the `spree.rb`.
 
 ```ruby
 # config/initializers/spree.rb
@@ -61,8 +63,7 @@ end
 
 ### Configuring ShipStation
 
-Create a ShipStation store: go to **Settings** -> **Stores** -> **Add Store**, then
-scroll down and choose the **Custom Store** option.
+Create a new ShipStation store by visiting: **Settings** -> **Selling Channels** -> **Stores** -> **Add Store**, then selecting the **Custom Store** option.
 
 Enter the following details:
 
