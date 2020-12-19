@@ -9,7 +9,7 @@ on:
     branches:
       - master
 jobs:
-  SQLITE
+  # SQLITE
   sqlite:
     runs-on: ubuntu-latest
     strategy:
