@@ -6,8 +6,8 @@ SpreeShipstation.configure do |config|
 
   # ShipStation expects the endpoint to be protected by HTTP Basic Auth.
   # Set the username and password you desire for ShipStation to use.
-  config.username = "shipstation_username"
-  config.password = "shipstation_password"
+  config.username = "create-a-username"
+  config.password = "set-a-new-password"
 
   # Capture payment when ShipStation notifies a shipping label creation.
   # Set this to `true` and `Spree::Config.require_payment_to_ship` to `false` if you

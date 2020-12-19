@@ -34,8 +34,8 @@ SpreeShipstation.configure do |config|
 
   # ShipStation expects the endpoint to be protected by HTTP Basic Auth.
   # Set the username and password you desire for ShipStation to use.
-  config.username = "smoking_jay_cutler"
-  config.password = "my-awesome-password"
+  config.username = "create-a-username"
+  config.password = "set-a-new-password"
 
   # Capture payment when ShipStation notifies a shipping label creation.
   # Set this to `true` and `Spree::Configrequire_payment_to_ship` to `false` if you
@@ -101,8 +101,11 @@ There are a few gotchas you need to be aware of:
 
 ### Testing the extension
 
-First bundle your dependencies, then run `bundle exec rake test_app` this will default to building the dummy
-app if it does not exist.
+First bundle your dependencies:
+
+```shell
+bundle
+```
 
 To run the tests use:
 
