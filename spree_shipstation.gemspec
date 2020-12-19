@@ -1,40 +1,34 @@
 # frozen_string_literal: true
 
-require_relative "lib/spree_shipstation/version"
+lib = File.expand_path("../lib/", __FILE__)
+$LOAD_PATH.unshift lib unless $LOAD_PATH.include?(lib)
 
-Gem::Specification.new do |spec|
-  spec.name = "spree_shipstation"
-  spec.version = SpreeShipstation::VERSION
-  spec.authors = ["Matthew Kennedy"]
-  spec.email = "m.kennedy@me.com"
+require "spree_shipstation/version"
 
-  spec.summary = "Spree/ShipStation Integration"
-  spec.description = "Integrates ShipStation API with Spree. Supports exporting shipments and importing tracking numbers"
-  spec.homepage = "https://github.com/matthewkennedy/spree_shipstation"
-  spec.license = "BSD-3-Clause"
+Gem::Specification.new do |s|
+  s.platform = Gem::Platform::RUBY
+  s.name = "spree_shipstation"
+  s.version = SpreeShipstation.version
+  s.summary = "Add extension summary here"
+  s.description = "Add (optional) extension description here"
+  s.required_ruby_version = ">= 2.2.7"
 
-  spec.metadata["homepage_uri"] = spec.homepage
-  spec.metadata["source_code_uri"] = "https://github.com/matthewkennedy/spree_shipstation"
+  s.author = "Matthew Kennedy"
+  s.email = "m.kennedy@me.com"
+  s.homepage = "https://github.com/matthewkennedy/spree_shipstation"
+  s.license = "BSD-3-Clause"
 
-  spec.required_ruby_version = Gem::Requirement.new("~> 2.5")
-
-  # Specify which files should be added to the gem when it is released.
-  # The `git ls-files -z` loads the files in the RubyGem that have been added into git.
-  files = Dir.chdir(__dir__) { `git ls-files -z`.split("\x0") }
-
-  spec.files = files.grep_v(%r{^(test|spec|features)/})
-  spec.test_files = files.grep(%r{^(test|spec|features)/})
-  spec.bindir = "exe"
-  spec.executables = files.grep(%r{^exe/}) { |f| File.basename(f) }
-  spec.require_paths = ["lib"]
+  s.files = `git ls-files`.split("\n").reject { |f| f.match(/^spec/) && !f.match(/^spec\/fixtures/) }
+  s.require_path = "lib"
+  s.requirements << "none"
 
   spree_version = ">= 3.2.0", "< 5.0"
-  spec.add_dependency "spree_core", spree_version
-  spec.add_dependency "spree_api", spree_version
-  spec.add_dependency "spree_backend", spree_version
-  spec.add_dependency "spree_extension"
+  s.add_dependency "spree_core", spree_version
+  s.add_dependency "spree_api", spree_version
+  s.add_dependency "spree_backend", spree_version
+  s.add_dependency "spree_extension"
 
-  spec.add_development_dependency "rspec-xsd"
-  spec.add_development_dependency "spree_dev_tools"
-  spec.add_development_dependency "standard"
+  s.add_development_dependency "rspec-xsd"
+  s.add_development_dependency "spree_dev_tools"
+  s.add_development_dependency "standard"
 end
