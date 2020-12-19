@@ -22,9 +22,10 @@ bundle exec rails generate spree_shipstation:install
 
 ## Configuration
 
-### Configuring spree_shipstation
+### Configuring Spree
 
-Configure your ShipStation integration:
+Once installed you will find the `spree_shipstation.rb` initilizer file located at: `config/initializers/spree_shipstation.rb`.
+Configure these options as required.
 
 ```ruby
 # config/initializers/spree_shipstation.rb
@@ -49,16 +50,16 @@ SpreeShipstation.configure do |config|
 end
 ```
 
-You may also need to configure some options of your Spree store:
+Depending on your `spree_shipstation.rb` configs, you may also need to configure some options in the `spree.rb` initializer file:
 
 ```ruby
 # config/initializers/spree.rb
-Spree.config do |config|
-  # Set to false if you're not using auto_capture (defaults to true).
-  config.auto_capture_on_dispatch = true
 
-  # Set to false if you're not using inventory tracking features (defaults to true).
-  config.track_inventory_levels = true
+Spree.config do |config|
+
+  # Add this config to your spree.rb initializer file,
+  # if you are config.capture_at_notification = true
+  config.auto_capture_on_dispatch = true # (Default is false)
 end
 ```
 
@@ -89,7 +90,7 @@ On-Hold                 | `on-hold`          | `pending`
 
 There's nothing you need to do. Once properly configured, the integration just works!
 
-## Compatibility
+### Compatibility
 
 This extension works with the following Spree versions:
 
