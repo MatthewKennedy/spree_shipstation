@@ -24,7 +24,7 @@ bundle exec rails generate spree_shipstation:install
 
 ### Configuring Spree
 
-Once installed you will find the `spree_shipstation.rb` file located in the: `config/initializers` folder.
+Once installed you will find the `spree_shipstation.rb` file located in the `config/initializers` folder.
 
 ```ruby
 # config/initializers/spree_shipstation.rb
@@ -49,7 +49,7 @@ SpreeShipstation.configure do |config|
 end
 ```
 
-If you are using `config.capture_at_notification = true` add the following config to your `spree.rb` initializer file:
+If you are using `config.capture_at_notification = true` add the following config to the `spree.rb` initializer file:
 
 ```ruby
 # config/initializers/spree.rb
@@ -61,7 +61,7 @@ end
 
 ### Configuring ShipStation
 
-To configure or create a ShipStation store, go to **Settings** -> **Stores** -> **Add Store**, then
+Create a ShipStation store: go to **Settings** -> **Stores** -> **Add Store**, then
 scroll down and choose the **Custom Store** option.
 
 Enter the following details:
