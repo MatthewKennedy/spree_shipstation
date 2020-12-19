@@ -41,9 +41,11 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        ruby: ['2.6']
+        ruby: ['2.6', '2.7']
         gemfile:
-          - spree_3_7
+          - spree_4_1
+          - spree_4_2
+          - spree_master
     env:
       BUNDLE_GEMFILE: ${{ github.workspace }}/gemfiles/${{ matrix.gemfile }}.gemfile
       BUNDLE_PATH_RELATIVE_TO_CWD: true
@@ -73,38 +75,38 @@ jobs:
 
 
   # POSTGRES
-  # postgres:
-  #   runs-on: ubuntu-latest
-  #   strategy:
-  #     matrix:
-  #       ruby: ['2.6', '2.7']
-  #       gemfile:
-  #         - spree_4_1
-  #         - spree_4_2
-  #         - spree_master
-  #   env:
-  #     BUNDLE_GEMFILE: ${{ github.workspace }}/gemfiles/${{ matrix.gemfile }}.gemfile
-  #     BUNDLE_PATH_RELATIVE_TO_CWD: true
+  postgres:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        ruby: ['2.6', '2.7']
+        gemfile:
+          - spree_4_1
+          - spree_4_2
+          - spree_master
+    env:
+      BUNDLE_GEMFILE: ${{ github.workspace }}/gemfiles/${{ matrix.gemfile }}.gemfile
+      BUNDLE_PATH_RELATIVE_TO_CWD: true
 
-  #   services:
-  #     postgres:
-  #       image: postgres:12
-  #       env:
-  #         POSTGRES_USER: postgres
-  #         POSTGRES_PASSWORD: password
-  #         POSTGRES_DB: test
-  #       ports: ['5432:5432']
+    services:
+      postgres:
+        image: postgres:12
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: password
+          POSTGRES_DB: test
+        ports: ['5432:5432']
 
-  #   steps:
-  #     - uses: actions/checkout@v2
-  #     - name: Set up Ruby ${{ matrix.ruby }}
-  #       uses: ruby/setup-ruby@v1
-  #       with:
-  #         ruby-version: ${{ matrix.ruby }}
-  #         bundler-cache: true
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Ruby ${{ matrix.ruby }}
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+          bundler-cache: true
 
-  #     - name: Run tests
-  #       env:
-  #         DATABASE_URL: postgres://postgres:password@localhost:5432/test
-  #         RAILS_ENV: test
-  #       run: bundle exec rake
+      - name: Run tests
+        env:
+          DATABASE_URL: postgres://postgres:password@localhost:5432/test
+          RAILS_ENV: test
+        run: bundle exec rake

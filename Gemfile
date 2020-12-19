@@ -7,8 +7,6 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
-gem 'rails', '>0.a'
-
 gem "spree", github: "spree/spree", branch: "master"
 gem "rails-controller-testing"
 
