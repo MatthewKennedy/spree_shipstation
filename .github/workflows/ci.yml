@@ -41,9 +41,8 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        ruby: ['2.5','2.6', '2.7']
+        ruby: ['2.6', '2.7']
         gemfile:
-          - spree_3_7
           - spree_4_1
           - spree_4_2
           - spree_master
@@ -80,9 +79,8 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        ruby: ['2.5','2.6', '2.7']
+        ruby: ['2.6', '2.7']
         gemfile:
-          - spree_3_7
           - spree_4_1
           - spree_4_2
           - spree_master
