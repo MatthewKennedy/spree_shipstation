@@ -2,7 +2,7 @@
 ![CI](https://github.com/MatthewKennedy/spree_shipstation/workflows/CI/badge.svg)
 ![Standard Rb](https://github.com/MatthewKennedy/spree_shipstation/workflows/Standard%20Rb/badge.svg)
 
-This Spree extension integrates [ShipStation](https://www.shipstation.com) with [Spree](https://spreecommerce.org), allowing ShipStation to pull shipments from Spree and update tracking numbers.
+SpreeShipstation integrates [ShipStation](https://www.shipstation.com) with [Spree](https://spreecommerce.org), allowing ShipStation to pull shipments from Spree and update tracking numbers.
 
 ## Installation
 
@@ -24,16 +24,11 @@ bundle install
 bundle exec rails generate spree_shipstation:install
 ```
 
-4. Restart your server
-
-If your server was running, restart it so that it can find the assets properly.
-
-
 ## Configuration
 
-### Configuring spree_shipstation
+### Configuring Spree
 
-Configure your ShipStation integration:
+Configure your spree_shipstation Spree extension using the `spree_shipstation.rb` file.
 
 ```ruby
 # config/initializers/spree_shipstation.rb
@@ -58,7 +53,7 @@ SpreeShipstation.configure do |config|
 end
 ```
 
-If you are using `config.capture_at_notification = true` add the following config to the `spree.rb`.
+If you set `config.capture_at_notification = true`, add the following config to `spree.rb`.
 
 ```ruby
 # config/initializers/spree.rb
