@@ -17,6 +17,8 @@ Bundle your dependencies and run the installation generator:
 
 ```shell
 bundle exec rails generate spree_shipstation:install
+
+# Generates the spree_shipstation.rb file => config/initializers/spree_shipstation.rb
 ```
 
 ## Configuration
