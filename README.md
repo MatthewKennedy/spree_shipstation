@@ -2,8 +2,7 @@
 ![CI](https://github.com/MatthewKennedy/spree_shipstation/workflows/CI/badge.svg)
 ![Standard Rb](https://github.com/MatthewKennedy/spree_shipstation/workflows/Standard%20Rb/badge.svg)
 
-This gem integrates [ShipStation](https://www.shipstation.com) with [Spree](https://spreecommerce.org). It
-enables ShipStation to pull shipments from the system and update tracking numbers.
+This Spree extension integrates [ShipStation](https://www.shipstation.com) with [Spree](https://spreecommerce.org). It enables ShipStation to pull shipments from the Spree and update tracking numbers.
 
 ## Installation
 
@@ -89,6 +88,14 @@ On-Hold                 | `on-hold`          | `pending`
 ## Usage
 
 There's nothing you need to do. Once properly configured, the integration just works!
+
+## Compatibility
+
+This extension works with the following Spree versions:
+
+- 3.7.x
+- 4.1.x
+- 4.2.x
 
 ## Gotchas
 
