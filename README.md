@@ -2,7 +2,8 @@
 ![CI](https://github.com/MatthewKennedy/spree_shipstation/workflows/CI/badge.svg)
 ![Standard Rb](https://github.com/MatthewKennedy/spree_shipstation/workflows/Standard%20Rb/badge.svg)
 
-SpreeShipstation integrates [ShipStation](https://www.shipstation.com) with [Spree](https://spreecommerce.org), allowing ShipStation to pull shipments from Spree and update tracking numbers.
+SpreeShipstation does exactly what it says on the tin, connecting your Spree store with [ShipStation](https://www.shipstation.com), allowing ShipStation to pull shipments from your Spree store and when an order is shipped, update the order with a tracking number and mark it as shipped.
+
 
 ## Installation
 
