@@ -108,7 +108,7 @@ There are a few gotchas you need to be aware of:
 
 ## Development
 
-### Testing the extension
+### Testing
 
 First bundle your dependencies:
 
@@ -122,23 +122,18 @@ To run the tests use:
 bundle exec rake
 ```
 
-To run [Standard Rb](https://github.com/testdouble/standard) static code analysis run:
+### Code Formatting
+
+To check your code formatting with [Standard Rb](https://github.com/testdouble/standard) run:
 
 ```shell
 bundle exec standardrb
 ```
 
-To fix code formatting issues run:
+To fix basic code formatting issues run:
 
 ```shell
 bundle exec standardrb --fix
-```
-
-When testing your application's integration with this extension you may use its factories.
-Simply add this require statement to your spec_helper:
-
-```ruby
-require 'spree_shipstation/factories'
 ```
 
 ## License
