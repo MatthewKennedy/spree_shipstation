@@ -8,7 +8,7 @@ xml.Orders(pages: (@shipments.total_count / 50.0).ceil) {
 
     xml.Order {
       xml.OrderID shipment.id
-      xml.OrderNumber shipment.number # do not use shipment.order.number as this presents lookup issues
+      xml.OrderNumber shipment.number
       xml.OrderDate order.completed_at.strftime(SpreeShipstation::ExportHelper::DATE_FORMAT)
       xml.OrderStatus shipment.state
       xml.LastModified [order.completed_at, shipment.updated_at].max.strftime(SpreeShipstation::ExportHelper::DATE_FORMAT)
@@ -18,16 +18,12 @@ xml.Orders(pages: (@shipments.total_count / 50.0).ceil) {
       xml.ShippingAmount order.ship_total
       xml.CustomField1 order.number
 
-      #       if order.gift?
-      #         xml.Gift
-      #         xml.GiftMessage
-      #       end
-
       xml.Customer do
         xml.CustomerCode order.email.slice(0, 50)
         SpreeShipstation::ExportHelper.address(xml, order, :bill)
         SpreeShipstation::ExportHelper.address(xml, order, :ship)
       end
+
       xml.Items {
         shipment.line_items.each do |line|
           variant = line.variant
