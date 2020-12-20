@@ -8,6 +8,5 @@ git_source(:github) do |repo_name|
 end
 
 gem "spree", github: "spree/spree", branch: "master"
-gem "rails-controller-testing"
 
 gemspec

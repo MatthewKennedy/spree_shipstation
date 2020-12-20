@@ -31,4 +31,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency "rspec-xsd"
   s.add_development_dependency "spree_dev_tools"
   s.add_development_dependency "standard"
+  s.add_development_dependency "rails-controller-testing"
 end
