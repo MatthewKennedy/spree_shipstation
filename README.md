@@ -1,4 +1,5 @@
 # spree_shipstation
+
 ![CI](https://github.com/MatthewKennedy/spree_shipstation/workflows/CI/badge.svg)
 ![Standard Rb](https://github.com/MatthewKennedy/spree_shipstation/workflows/Standard%20Rb/badge.svg)
 
@@ -9,21 +10,21 @@ The spree_shipstation extension connects your Spree store with [ShipStation](htt
 
 1. Add this extension to your Gemfile with this line:
 
-```ruby
-gem "spree_shipstation", github: "matthewkennedy/spree_shipstation"
-```
+    ```ruby
+    gem "spree_shipstation", github: "matthewkennedy/spree_shipstation"
+    ```
 
 2. Install the gem using Bundler
 
-```shell
-bundle install
-```
+    ```shell
+    bundle install
+    ```
 
 3. Copy & run install the generator
 
-```shell
-bundle exec rails generate spree_shipstation:install
-```
+    ```shell
+    bundle exec rails generate spree_shipstation:install
+    ```
 
 ## Configuration
 
