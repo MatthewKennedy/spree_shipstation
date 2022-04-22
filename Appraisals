@@ -12,9 +12,9 @@ appraise "spree-4-1" do
 end
 
 appraise "spree-4-2" do
-  gem "spree", "~> 4.2.0rc2"
+  gem "spree", "~> 4.2.0"
 end
 
-appraise "spree-master" do
-  gem "spree", github: "spree/spree", branch: "master"
+appraise "spree-main" do
+  gem "spree", github: "spree/spree", branch: "main"
 end

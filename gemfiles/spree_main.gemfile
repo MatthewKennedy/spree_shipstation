@@ -2,6 +2,6 @@
 
 source "https://rubygems.org"
 
-gem "spree", branch: "master", git: "https://github.com/spree/spree.git"
+gem "spree", branch: "main", git: "https://github.com/spree/spree.git"
 
 gemspec path: "../"
