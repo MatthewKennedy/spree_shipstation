@@ -3,5 +3,7 @@
 source "https://rubygems.org"
 
 gem "spree", branch: "main", git: "https://github.com/spree/spree.git"
+gem "pg"
+gem "ruby-vips"
 
 gemspec path: "../"
