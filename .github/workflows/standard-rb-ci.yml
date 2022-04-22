@@ -1,5 +1,4 @@
----
-name: Standard Rb
+name: StandardRB
 
 on:
   pull_request:
@@ -8,20 +7,19 @@ on:
   push:
     branches:
       - master
-jobs:
-  # STANDARD RB
-  standard:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        ruby: ['2.7']
-    steps:
-      - uses: actions/checkout@v2
-      - name: Set up Ruby ${{ matrix.ruby }}
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: ${{ matrix.ruby }}
-          bundler-cache: true
 
-      - name: Run Standard Rb
-        run: bundle exec standardrb --format progress
+jobs:
+  standard:
+    name: StandardRB Check Action
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+
+    - name: Set up Ruby 3.1
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: 3.1
+        bundler-cache: true
+
+    - name: Run StandardRB
+      run: bundle exec standardrb --format progress
