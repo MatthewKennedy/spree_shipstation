@@ -7,6 +7,6 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
-gem "spree", github: "spree/spree", branch: "master"
+gem "spree", github: "spree/spree", branch: "main"
 
 gemspec
