@@ -5,6 +5,5 @@ source "https://rubygems.org"
 gem "spree", branch: "3-7-stable", git: "https://github.com/spree/spree.git"
 gem "sass-rails"
 gem "pg"
-gem "mysql", "~> 2.9", ">= 2.9.1"
 
 gemspec path: "../"

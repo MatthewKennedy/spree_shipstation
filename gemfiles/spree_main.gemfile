@@ -4,7 +4,5 @@ source "https://rubygems.org"
 
 gem "spree", branch: "main", git: "https://github.com/spree/spree.git"
 gem "pg"
-gem "mysql", "~> 2.9", ">= 2.9.1"
-gem "ruby-vips"
 
 gemspec path: "../"
