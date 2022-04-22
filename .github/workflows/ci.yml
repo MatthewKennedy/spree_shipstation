@@ -9,42 +9,42 @@ on:
     branches:
       - main
 jobs:
-  mysql:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        ruby: ['2.6', '2.7']
-        gemfile:
-          - spree_3_7
-          - spree_4_1
-          - spree_4_2
-          - spree_main
-    env:
-      BUNDLE_GEMFILE: ${{ github.workspace }}/gemfiles/${{ matrix.gemfile }}.gemfile
-      BUNDLE_PATH_RELATIVE_TO_CWD: true
+  # mysql:
+  #   runs-on: ubuntu-latest
+  #   strategy:
+  #     matrix:
+  #       ruby: ['2.6', '2.7']
+  #       gemfile:
+  #         - spree_3_7
+  #         - spree_4_1
+  #         - spree_4_2
+  #         - spree_main
+  #   env:
+  #     BUNDLE_GEMFILE: ${{ github.workspace }}/gemfiles/${{ matrix.gemfile }}.gemfile
+  #     BUNDLE_PATH_RELATIVE_TO_CWD: true
 
-    services:
-      mysql:
-        image: mysql:8
-        env:
-          MYSQL_ROOT_PASSWORD: password
-          MSQL_DATABASE: test
-        ports: ['3306:3306']
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+  #   services:
+  #     mysql:
+  #       image: mysql:8
+  #       env:
+  #         MYSQL_ROOT_PASSWORD: password
+  #         MSQL_DATABASE: test
+  #       ports: ['3306:3306']
+  #       options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
-    steps:
-      - uses: actions/checkout@v2
-      - name: Set up Ruby ${{ matrix.ruby }}
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: ${{ matrix.ruby }}
-          bundler-cache: true
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - name: Set up Ruby ${{ matrix.ruby }}
+  #       uses: ruby/setup-ruby@v1
+  #       with:
+  #         ruby-version: ${{ matrix.ruby }}
+  #         bundler-cache: true
 
-      - name: Run tests
-        env:
-          DATABASE_URL: mysql2://root:password@127.0.0.1:3306/test
-          RAILS_ENV: test
-        run: bundle exec rake
+  #     - name: Run tests
+  #       env:
+  #         DATABASE_URL: mysql2://root:password@127.0.0.1:3306/test
+  #         RAILS_ENV: test
+  #       run: bundle exec rake
 
 
   # POSTGRES
