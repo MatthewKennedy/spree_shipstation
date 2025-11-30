@@ -6,27 +6,41 @@ module SpreeShipstation
   module ExportHelper
     DATE_FORMAT = "%m/%d/%Y %H:%M"
 
-    # rubocop:disable all
     def self.address(xml, order, type)
-      name = "#{type.to_s.titleize}To"
-      address = order.send("#{type}_address")
+      address = order.public_send("#{type}_address")
+      return unless address
 
-      xml.__send__(name) {
-        xml.Name         address.respond_to?(:name) ? address.name : address.full_name
-        xml.Company      address.company
+      tag_name = "#{type.to_s.camelize}To"
+
+      xml.tag!(tag_name) do
+        xml.Name name_from(address)
+        xml.Company address.company
 
         if type == :ship
-          xml.Address1   address.address1
-          xml.Address2   address.address2
-          xml.City       address.city
-          xml.State      address.state ? address.state.abbr : address.state_name
+          xml.Address1 address.address1
+          xml.Address2 address.address2
+          xml.City address.city
+          xml.State state_from(address)
           xml.PostalCode address.zipcode
-          xml.Country    address.country.iso
+          xml.Country address.country&.iso
         end
 
-        xml.Phone        address.phone
-      }
+        xml.Phone address.phone
+      end
     end
-    # rubocop:enable all
+
+    class << self
+      private
+
+      def name_from(address)
+        return address.name if address.respond_to?(:name)
+
+        address.try(:full_name)
+      end
+
+      def state_from(address)
+        address.state&.abbr || address.state_name
+      end
+    end
   end
 end

@@ -1,18 +1,26 @@
 # frozen_string_literal: true
 
-xml = Builder::XmlMarkup.new
 xml.instruct!
-xml.Orders(pages: (@shipments.total_count / 50.0).ceil) {
+
+total_count = @shipments.respond_to?(:total_count) ? @shipments.total_count : @shipments.count
+
+xml.Orders(pages: (total_count / 50.0).ceil) do
   @shipments.each do |shipment|
     order = shipment.order
 
-    xml.Order {
+    next unless order
+
+    xml.Order do
       xml.OrderID shipment.id
       xml.OrderNumber shipment.number
-      xml.OrderDate order.completed_at.strftime(SpreeShipstation::ExportHelper::DATE_FORMAT)
+
+      xml.OrderDate order.completed_at&.strftime(SpreeShipstation::ExportHelper::DATE_FORMAT)
       xml.OrderStatus shipment.state
-      xml.LastModified [order.completed_at, shipment.updated_at].max.strftime(SpreeShipstation::ExportHelper::DATE_FORMAT)
-      xml.ShippingMethod shipment.shipping_method.try(:name)
+
+      last_modified = [order.completed_at, shipment.updated_at].compact.max
+      xml.LastModified last_modified&.strftime(SpreeShipstation::ExportHelper::DATE_FORMAT)
+
+      xml.ShippingMethod shipment.shipping_method&.name
       xml.OrderTotal order.total
       xml.TaxAmount order.tax_total
       xml.ShippingAmount order.ship_total
@@ -24,31 +32,38 @@ xml.Orders(pages: (@shipments.total_count / 50.0).ceil) {
         SpreeShipstation::ExportHelper.address(xml, order, :ship)
       end
 
-      xml.Items {
+      xml.Items do
         shipment.line_items.each do |line|
           variant = line.variant
-          xml.Item {
+          next unless variant
+
+          xml.Item do
             xml.SKU variant.sku
-            xml.Name [variant.product.name, variant.options_text].join(" ")
-            xml.ImageUrl variant.images.first.try(:attachment).try(:url)
+
+            name_parts = [variant.product.name, variant.options_text]
+            xml.Name name_parts.reject(&:blank?).join(" ")
+
+            image = variant.images.first || variant.product.master.images.first
+            xml.ImageUrl image&.attachment&.url
+
             xml.Weight variant.weight.to_f
             xml.WeightUnits SpreeShipstation.configuration.weight_units
             xml.Quantity line.quantity
             xml.UnitPrice line.price
 
             if variant.option_values.present?
-              xml.Options {
+              xml.Options do
                 variant.option_values.each do |value|
-                  xml.Option {
+                  xml.Option do
                     xml.Name value.option_type.presentation
                     xml.Value value.name
-                  }
+                  end
                 end
-              }
+              end
             end
-          }
+          end
         end
-      }
-    }
+      end
+    end
   end
-}
+end

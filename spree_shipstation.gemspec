@@ -22,14 +22,8 @@ Gem::Specification.new do |s|
   s.require_path = "lib"
   s.requirements << "none"
 
-  spree_version = ">= 3.2.0", "< 5.0"
-  s.add_dependency "spree_core", spree_version
-  s.add_dependency "spree_api", spree_version
-  s.add_dependency "spree_backend", spree_version
-  s.add_dependency "spree_extension"
+  spree_version = ">= 3.2.0", "< 6.0"
 
-  s.add_development_dependency "rspec-xsd"
-  s.add_development_dependency "spree_dev_tools"
-  s.add_development_dependency "standard"
-  s.add_development_dependency "rails-controller-testing"
+  s.add_dependency "spree", spree_version
+  s.add_dependency "spree_extension"
 end
