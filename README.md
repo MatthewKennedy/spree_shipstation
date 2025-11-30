@@ -11,7 +11,7 @@ The spree_shipstation extension connects your Spree store with [ShipStation](htt
 1. Add this extension to your Gemfile with this line:
 
     ```ruby
-    gem "spree_shipstation", github: "matthewkennedy/spree_shipstation"
+    gem "spree_shipstation", github: "matthewkennedy/spree_shipstation", tag: "1.0.0"
     ```
 
 2. Install the gem using Bundler
@@ -96,8 +96,8 @@ There's nothing you need to do. Once properly configured, the integration just w
 This extension works with the following Spree versions:
 
 - 3.7.x
-- 4.1.x
-- 4.2.x
+- 4.x
+- 5.x
 
 ## Gotchas
 
