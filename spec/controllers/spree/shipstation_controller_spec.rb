@@ -1,7 +1,7 @@
-# frozen_string_literal: true
-
 RSpec.describe Spree::ShipstationController do
   render_views
+
+  let!(:store) { create(:store, default: true) }
 
   describe "#export" do
     context "when the authentication is invalid" do
@@ -15,13 +15,14 @@ RSpec.describe Spree::ShipstationController do
     context "when the authentication is valid" do
       it "responds with 200 OK" do
         stub_shipstation_auth
-        create(:order_ready_to_ship)
+        create(:order_ready_to_ship, store: store)
 
         get :export,
           params: {
             start_date: 1.day.ago.strftime("%m/%d/%Y %H:%M"),
             end_date: 1.day.from_now.strftime("%m/%d/%Y %H:%M"),
-            format: "xml"
+            format: :xml,
+            page: 1
           }
 
         expect(response.status).to eq(200)
@@ -29,13 +30,15 @@ RSpec.describe Spree::ShipstationController do
 
       it "generates ShipStation-compliant XML" do
         stub_shipstation_auth
-        create(:order_ready_to_ship)
+        create(:order_ready_to_ship, store: store)
 
-        get :export, params: {
-          start_date: 1.day.ago.strftime("%m/%d/%Y %H:%M"),
-          end_date: 1.day.from_now.strftime("%m/%d/%Y %H:%M"),
-          format: "xml"
-        }
+        get :export,
+          params: {
+            start_date: 100.day.ago.strftime("%m/%d/%Y %H:%M"),
+            end_date: 2.day.from_now.strftime("%m/%d/%Y %H:%M"),
+            format: :xml,
+            page: 1
+          }
 
         expect(response.body).to pass_validation("spec/fixtures/shipstation_xml_schema.xsd")
       end
@@ -96,7 +99,7 @@ RSpec.describe Spree::ShipstationController do
     end
   end
 
-  def stub_shipstation_auth(username = "mario", password = "lemieux")
+  def stub_shipstation_auth(username = "company", password = "1Password-123")
     stub_configuration(username: username, password: password)
     request.headers["Authorization"] = ActionController::HttpAuthentication::Basic.encode_credentials(username, password)
   end

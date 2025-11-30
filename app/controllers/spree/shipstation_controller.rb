@@ -7,8 +7,20 @@ module Spree
     before_action :authenticate_shipstation
 
     def export
-      @shipments = Spree::Shipment
+      @shipments = current_store.shipments
         .exportable
+        .includes(
+          :order,
+          inventory_units: {
+            line_item: {
+              variant: [
+                :product,
+                :images,
+                {option_values: :option_type}
+              ]
+            }
+          }
+        )
         .between(date_param(:start_date), date_param(:end_date))
         .page(params[:page])
         .per(50)
@@ -21,7 +33,8 @@ module Spree
     def shipnotify
       SpreeShipstation::ShipmentNotice.from_payload(params.to_unsafe_h).apply
       head :ok
-    rescue SpreeShipstation::Error
+    rescue SpreeShipstation::Error => e
+      Rails.logger.error("ShipStation Notification Error: #{e.message}")
       head :bad_request
     end
 
@@ -31,6 +44,8 @@ module Spree
       return if params[name].blank?
 
       Time.strptime("#{params[name]} UTC", "%m/%d/%Y %H:%M %Z")
+    rescue ArgumentError
+      nil
     end
 
     def authenticate_shipstation

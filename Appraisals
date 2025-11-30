@@ -1,20 +1,19 @@
-appraise "spree-3-7" do
-  gem "spree", branch: "3-7-stable", git: "https://github.com/spree/spree.git"
-  gem "sass-rails"
+appraise "spree-5-1" do
+  spree = "~> 5.1.0"
+
+  gem "spree", spree
+  gem "spree_emails", spree
+  gem "spree_admin", spree
+
+  gem "sprockets-rails"
 end
 
-appraise "spree-4-0" do
-  gem "spree", "~> 4.0.0"
-end
+appraise "spree-main" do
+  spree_opts = {github: "spree/spree", branch: "main"}
 
-appraise "spree-4-1" do
-  gem "spree", "~> 4.1.0"
-end
+  gem "spree", spree_opts
+  gem "spree_emails", spree_opts
+  gem "spree_admin", spree_opts
 
-appraise "spree-4-2" do
-  gem "spree", "~> 4.2.0rc2"
-end
-
-appraise "spree-master" do
-  gem "spree", github: "spree/spree", branch: "master"
+  gem "sprockets-rails"
 end
