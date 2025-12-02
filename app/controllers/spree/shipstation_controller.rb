@@ -2,8 +2,11 @@
 
 module Spree
   class ShipstationController < Spree::BaseController
+    include Spree::IntegrationsHelper
+
     protect_from_forgery with: :null_session, only: :shipnotify
 
+    before_action :ensure_active_integration
     before_action :authenticate_shipstation
 
     def export
@@ -16,7 +19,7 @@ module Spree
               variant: [
                 :product,
                 :images,
-                {option_values: :option_type}
+                { option_values: :option_type }
               ]
             }
           }
@@ -40,6 +43,12 @@ module Spree
 
     private
 
+    def ensure_active_integration
+      unless store_integration('shipstation')&.active?
+        head :not_found
+      end
+    end
+
     def date_param(name)
       return if params[name].blank?
 
@@ -50,8 +59,8 @@ module Spree
 
     def authenticate_shipstation
       authenticate_or_request_with_http_basic do |username, password|
-        username == SpreeShipstation.configuration.username &&
-          password == SpreeShipstation.configuration.password
+        username == store_integration('shipstation').preferred_username &&
+          password == store_integration('shipstation').preferred_password
       end
     end
   end
