@@ -4,8 +4,11 @@ en:
     admin:
       integrations:
         shipstation:
+          username: Username
+          password: Password
           brand_name: ShipStation
-          description: Ship faster, cheaper, and smarter from one just platform.
+          description: Ship faster, cheaper, and smarter from one just platform. Connect this store to Shipstation.
+          capture_at_notification: Capture payment when shipment notification recieved from ShipStation
   shipment_not_found: Shipment %{number} was not found
   import_tracking_error: "Tracking number cannot be imported. Error: %{error}"
   capture_payment_error: "Error in capture of payment for order %{number}. Error: %{error}"
