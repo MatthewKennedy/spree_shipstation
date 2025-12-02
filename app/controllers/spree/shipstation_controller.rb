@@ -11,7 +11,7 @@ module Spree
 
     def export
       @shipments = current_store.shipments
-        .exportable
+        .exportable(store_integration('shipstation').preferred_capture_at_notification)
         .includes(
           :order,
           inventory_units: {
