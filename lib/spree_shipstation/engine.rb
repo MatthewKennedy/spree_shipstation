@@ -11,7 +11,7 @@ module SpreeShipstation
       g.test_framework :rspec
     end
 
-    initializer 'spree_shipstation.assets' do |app|
+    initializer "spree_shipstation.assets" do |app|
       if app.config.respond_to?(:assets)
         app.config.assets.precompile += %w[spree_shipstation_manifest]
       end

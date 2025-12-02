@@ -9,15 +9,15 @@ module Spree
       validates :preferred_password, presence: true
 
       def self.integration_group
-        'Shipping'
+        "Shipping"
       end
 
       def self.icon_path
-        'integration_icons/shipstation-logo.webp'
+        "integration_icons/shipstation-logo.webp"
       end
 
       def self.integration_name
-        Spree.t('admin.integrations.shipstation.brand_name')
+        Spree.t("admin.integrations.shipstation.brand_name")
       end
     end
   end

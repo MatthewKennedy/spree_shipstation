@@ -11,7 +11,7 @@ module Spree
 
     def export
       @shipments = current_store.shipments
-        .exportable(store_integration('shipstation').preferred_capture_at_notification)
+        .exportable(store_integration("shipstation").preferred_capture_at_notification)
         .includes(
           :order,
           inventory_units: {
@@ -19,7 +19,7 @@ module Spree
               variant: [
                 :product,
                 :images,
-                { option_values: :option_type }
+                {option_values: :option_type}
               ]
             }
           }
@@ -34,7 +34,7 @@ module Spree
     end
 
     def shipnotify
-      SpreeShipstation::ShipmentNotice.from_payload(params.to_unsafe_h).apply(capture: store_integration('shipstation').preferred_capture_at_notification)
+      SpreeShipstation::ShipmentNotice.from_payload(params.to_unsafe_h).apply(capture: store_integration("shipstation").preferred_capture_at_notification)
       head :ok
     rescue SpreeShipstation::Error => e
       Rails.logger.error("ShipStation Notification Error: #{e.message}")
@@ -44,7 +44,7 @@ module Spree
     private
 
     def ensure_active_integration
-      unless store_integration('shipstation')&.active?
+      unless store_integration("shipstation")&.active?
         head :not_found
       end
     end
@@ -59,8 +59,8 @@ module Spree
 
     def authenticate_shipstation
       authenticate_or_request_with_http_basic do |username, password|
-        username == store_integration('shipstation').preferred_username &&
-          password == store_integration('shipstation').preferred_password
+        username == store_integration("shipstation").preferred_username &&
+          password == store_integration("shipstation").preferred_password
       end
     end
   end

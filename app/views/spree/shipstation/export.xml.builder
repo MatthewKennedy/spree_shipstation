@@ -38,7 +38,7 @@ xml.Orders(pages: (total_count / 50.0).ceil) do
           next unless variant
 
           weight_val = variant.weight || 0.0
-          raw_unit   = line.variant.weight_unit
+          raw_unit = line.variant.weight_unit
 
           case raw_unit
           when "lb"
@@ -46,7 +46,7 @@ xml.Orders(pages: (total_count / 50.0).ceil) do
           when "oz"
             weight_units = "Ounces"
           when "kg"
-            weight_val   = weight_val * 1000
+            weight_val *= 1000
             weight_units = "Grams"
           else
             weight_units = "Grams"

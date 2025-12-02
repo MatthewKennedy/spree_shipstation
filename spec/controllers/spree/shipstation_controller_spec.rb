@@ -11,11 +11,11 @@ RSpec.describe Spree::ShipstationController do
 
     context "when the integration is present, but not activated" do
       before do
-        allow(controller).to receive(:store_integration).with('shipstation').and_return(inactive_integration)
+        allow(controller).to receive(:store_integration).with("shipstation").and_return(inactive_integration)
       end
 
       it "returns a 404" do
-        get :export, params: { format: :xml }
+        get :export, params: {format: :xml}
 
         expect(response.status).to eq(404)
       end
@@ -23,7 +23,7 @@ RSpec.describe Spree::ShipstationController do
 
     context "when the authentication is invalid" do
       it "returns 401" do
-        stub_shipstation_auth('some_wrong_username', 'not_the_correct-password')
+        stub_shipstation_auth("some_wrong_username", "not_the_correct-password")
         create(:order_ready_to_ship, store: store)
 
         get :export, params: {format: :xml}
@@ -72,7 +72,7 @@ RSpec.describe Spree::ShipstationController do
 
     context "when the integration is present, but not activated" do
       before do
-        allow(controller).to receive(:store_integration).with('shipstation').and_return(inactive_integration)
+        allow(controller).to receive(:store_integration).with("shipstation").and_return(inactive_integration)
       end
 
       it "returns 404" do
