@@ -5,7 +5,6 @@ RSpec.describe SpreeShipstation::ShipmentNotice do
     context "when capture_at_notification is true" do
       context "when the order is paid" do
         it "ships the order successfully" do
-          stub_configuration(capture_at_notification: true)
           order = create_order_ready_to_ship(paid: true)
 
           shipment_notice = build_shipment_notice(order.shipments.first, shipment_tracking: "1Z1231234")
@@ -18,11 +17,10 @@ RSpec.describe SpreeShipstation::ShipmentNotice do
       context "when the order is not paid" do
         context "when the payments can be captured successfully" do
           it "pays the order successfully" do
-            stub_configuration(capture_at_notification: true)
             order = create_order_ready_to_ship(paid: false)
 
             shipment_notice = build_shipment_notice(order.shipments.first, shipment_tracking: "1Z1231234")
-            shipment_notice.apply
+            shipment_notice.apply(capture: true)
 
             order.reload
             expect(order.payments).to all(be_completed)
@@ -30,11 +28,10 @@ RSpec.describe SpreeShipstation::ShipmentNotice do
           end
 
           it "ships the order successfully" do
-            stub_configuration(capture_at_notification: true)
             order = create_order_ready_to_ship(paid: false)
 
             shipment_notice = build_shipment_notice(order.shipments.first, shipment_tracking: "1Z1231234")
-            shipment_notice.apply
+            shipment_notice.apply(capture: true)
 
             expect_order_to_be_shipped(order)
           end
@@ -42,13 +39,12 @@ RSpec.describe SpreeShipstation::ShipmentNotice do
 
         context "when the a payment cannot be captured" do
           it "raises a PaymentError" do
-            stub_configuration(capture_at_notification: true)
             order = create_order_ready_to_ship(paid: false)
             allow_any_instance_of(Spree::Payment).to receive(:capture!).and_raise(Spree::Core::GatewayError)
 
             shipment_notice = build_shipment_notice(order.shipments.first)
 
-            expect { shipment_notice.apply }.to raise_error(SpreeShipstation::PaymentError) do |e|
+            expect { shipment_notice.apply(capture: true) }.to raise_error(SpreeShipstation::PaymentError) do |e|
               expect(e.cause).to be_instance_of(Spree::Core::GatewayError)
             end
           end
@@ -59,11 +55,10 @@ RSpec.describe SpreeShipstation::ShipmentNotice do
     context "when capture_at_notification is false" do
       context "when the order is paid" do
         it "ships the order successfully" do
-          stub_configuration(capture_at_notification: true)
           order = create_order_ready_to_ship(paid: false)
 
           shipment_notice = build_shipment_notice(order.shipments.first, shipment_tracking: "1Z1231234")
-          shipment_notice.apply
+          shipment_notice.apply(capture: true)
 
           expect_order_to_be_shipped(order)
         end
@@ -71,7 +66,6 @@ RSpec.describe SpreeShipstation::ShipmentNotice do
 
       context "when the order is not paid" do
         it "raises an OrderNotPaidError" do
-          stub_configuration(capture_at_notification: false)
           order = create_order_ready_to_ship(paid: false)
 
           shipment_notice = build_shipment_notice(order.shipments.first)

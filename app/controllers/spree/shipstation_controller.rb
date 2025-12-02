@@ -34,7 +34,7 @@ module Spree
     end
 
     def shipnotify
-      SpreeShipstation::ShipmentNotice.from_payload(params.to_unsafe_h).apply
+      SpreeShipstation::ShipmentNotice.from_payload(params.to_unsafe_h).apply(capture: store_integration('shipstation').preferred_capture_at_notification)
       head :ok
     rescue SpreeShipstation::Error => e
       Rails.logger.error("ShipStation Notification Error: #{e.message}")

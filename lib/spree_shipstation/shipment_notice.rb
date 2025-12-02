@@ -18,13 +18,13 @@ module SpreeShipstation
       @shipment_tracking = shipment_tracking
     end
 
-    def apply
-      unless shipment
-        raise ShipmentNotFoundError, shipment
-      end
+    def apply(capture: false)
+      raise ShipmentNotFoundError, shipment unless shipment
 
-      process_payment
-      ship_shipment
+      Spree::Shipment.transaction do
+        process_payment(capture: capture)
+        ship_shipment
+      end
 
       shipment
     end
@@ -35,12 +35,10 @@ module SpreeShipstation
       @shipment ||= ::Spree::Shipment.find_by(number: shipment_number)
     end
 
-    def process_payment
+    def process_payment(capture:)
       return if shipment.order.paid?
 
-      unless SpreeShipstation.configuration.capture_at_notification
-        raise OrderNotPaidError, shipment.order
-      end
+      raise OrderNotPaidError, shipment.order unless capture
 
       shipment.order.payments.pending.each do |payment|
         payment.capture!
@@ -50,12 +48,12 @@ module SpreeShipstation
     end
 
     def ship_shipment
-      shipment.update_attribute(:tracking, shipment_tracking)
+      shipment.tracking = shipment_tracking
+      shipment.save!
 
       unless shipment.shipped?
         shipment.reload.ship!
-        shipment.touch :shipped_at
-        shipment.update!(shipment.order)
+        shipment.order.updater.update if shipment.order.respond_to?(:updater)
       end
     end
   end
