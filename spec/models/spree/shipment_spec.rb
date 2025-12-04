@@ -34,18 +34,7 @@ RSpec.describe Spree::Shipment do
 
         create(:shipped_order)
 
-        expect(described_class.exportable(false)).to eq([ready_shipment])
-      end
-    end
-
-    context "when capture_at_notification is true" do
-      it "returns non-canceled shipments (ready and shipped) from complete orders" do
-        ready_shipment = create(:order_ready_to_ship).shipments.first
-        shipped_shipment = create(:shipped_order).shipments.first
-        canceled_order = create(:order_ready_to_ship)
-        canceled_order.shipments.first.cancel!
-
-        expect(described_class.exportable(true)).to match_array([ready_shipment, shipped_shipment])
+        expect(described_class.exportable).to eq([ready_shipment])
       end
     end
   end

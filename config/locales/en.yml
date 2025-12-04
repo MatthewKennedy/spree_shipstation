@@ -7,6 +7,7 @@ en:
           must_contain_at_least_one_special_character: must contain at least one special character
           must_contain_at_least_one_uppercase_letter: must contain at least one uppercase letter
           must_contain_at_least_one_number: must contain at least one number
+          username_chars_error: can only contain letters, numbers, and . _ @ + -
           username: Username
           password: Password
           brand_name: ShipStation

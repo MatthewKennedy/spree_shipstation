@@ -3,17 +3,11 @@
 module Spree
   module ShipmentDecorator
     def self.prepended(base)
-      base.scope :exportable, ->(capture_at_notification = false) {
-        current_scope = joins(:order)
+      base.scope :exportable, -> {
+        joins(:order)
           .merge(::Spree::Order.complete)
+          .where(state: 'ready')
           .order(:updated_at)
-          .where.not(state: "canceled")
-
-        unless capture_at_notification
-          current_scope = current_scope.where(state: ["ready"])
-        end
-
-        current_scope
       }
 
       base.scope :between, ->(from, to) {

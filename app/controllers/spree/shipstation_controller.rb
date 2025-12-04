@@ -11,7 +11,7 @@ module Spree
 
     def export
       @shipments = current_store.shipments
-        .exportable(store_integration("shipstation").preferred_capture_at_notification)
+        .exportable
         .includes(
           :order,
           inventory_units: {
@@ -34,7 +34,7 @@ module Spree
     end
 
     def shipnotify
-      SpreeShipstation::ShipmentNotice.from_payload(params.to_unsafe_h).apply(capture: store_integration("shipstation").preferred_capture_at_notification)
+      SpreeShipstation::ShipmentNotice.from_payload(params.to_unsafe_h).apply
       head :ok
     rescue SpreeShipstation::Error => e
       Rails.logger.error("ShipStation Notification Error: #{e.message}")
