@@ -34,7 +34,7 @@ xml.Orders(pages: (total_count / 50.0).ceil) do
 
       xml.Items do
         shipment.line_items.each do |line|
-          variant = line.variantimage.attachment
+          variant = line.variant
           next unless variant
 
           weight_val = variant.weight || 0.0
