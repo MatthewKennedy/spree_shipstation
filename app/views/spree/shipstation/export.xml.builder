@@ -34,7 +34,7 @@ xml.Orders(pages: (total_count / 50.0).ceil) do
 
       xml.Items do
         shipment.line_items.each do |line|
-          variant = line.variant
+          variant = line.variantimage.attachment
           next unless variant
 
           weight_val = variant.weight || 0.0
@@ -59,7 +59,7 @@ xml.Orders(pages: (total_count / 50.0).ceil) do
             xml.Name name_parts.reject(&:blank?).join(" ")
 
             image = variant.images.first || variant.product.master.images.first
-            xml.ImageUrl image&.attachment&.url(:original, timestamp: false)
+            xml.ImageUrl image.attachment.url
 
             xml.Weight weight_val.to_f
             xml.WeightUnits weight_units
