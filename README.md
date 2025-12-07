@@ -11,7 +11,7 @@ The spree_shipstation extension connects your Spree store with [ShipStation](htt
 1. Add this extension to your Gemfile with this line:
 
     ```ruby
-    gem "spree_shipstation", github: "matthewkennedy/spree_shipstation", tag: "v1.0.0"
+    gem "spree_shipstation", github: "matthewkennedy/spree_shipstation", tag: "v2.0.0"
     ```
 
 2. Install the gem using Bundler
@@ -26,37 +26,9 @@ The spree_shipstation extension connects your Spree store with [ShipStation](htt
     bundle exec rails generate spree_shipstation:install
     ```
 
-## Configuration
-
 ### Configuring Spree
 
-Configure your spree_shipstation Spree extension using the `spree_shipstation.rb` file.
-
-```ruby
-# config/initializers/spree_shipstation.rb
-
-SpreeShipstation.configure do |config|
-  # ShipStation expects the endpoint to be protected by HTTP Basic Auth.
-  # Set the username and password you desire for ShipStation to use.
-  config.username = "create-a-username"
-  config.password = "set-a-new-password"
-
-  # Capture payment when ShipStation notifies a shipping label creation.
-  # Set this to `true` and `config.auto_capture_on_dispatch = true` if you
-  # want to charge your customers at the time of shipment.
-  config.capture_at_notification = false
-end
-```
-
-If you set `config.capture_at_notification = true`, add the following config to `spree.rb`.
-
-```ruby
-# config/initializers/spree.rb
-
-Spree.config do |config|
-  config.auto_capture_on_dispatch = true # (Spree default is false)
-end
-```
+Visit the Integrations section of your Spree store and configure the ShipStation integration, adding a username and password, (remember the password).
 
 ### Configuring ShipStation
 
@@ -66,7 +38,7 @@ Enter the following details:
 
 - **Username**: the username defined in your config.
 - **Password**: the password defined in your config.
-- **URL to custom page**: `https://yourdomain.com/shipstation.xml`.
+- **URL to custom page**: `https://your-store-domain.com/shipstation.xml`.
 
 There are five shipment states for an order (= shipment) in ShipStation. These states do not
 necessarily align with Spree, but you can configure ShipStation to create a mapping for your
@@ -87,21 +59,8 @@ There's nothing you need to do. Once properly configured, the integration just w
 ### Compatibility
 
 This extension works with the following Spree versions:
-
-- 3.7.x
-- 4.x
 - 5.x
 
-## Gotchas
-
-There are a few gotchas you need to be aware of:
-
-- If you change the shipping method of an order in ShipStation, the change will not be reflected in
-  Spree and the tracking link might not work properly.
-- When `shipstation_capture_at_notification` is enabled, any errors during payment capture will
-  prevent the update of the shipment's tracking number.
-
-## Development
 
 ### Testing
 
@@ -133,4 +92,4 @@ bundle exec standardrb --fix
 
 ## License
 
-Copyright (c) 2020 Matthew Kennedy, released under the New BSD License.
+Copyright (c) 2025 Matthew Kennedy, released under the New BSD License.
