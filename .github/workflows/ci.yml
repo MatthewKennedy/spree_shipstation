@@ -17,6 +17,7 @@ jobs:
         ruby: ['3.3', '3.4']
         gemfile:
         - spree_5_1
+        - spree_5_2
         - spree_main
     env:
       BUNDLE_GEMFILE: ${{ github.workspace }}/gemfiles/${{ matrix.gemfile }}.gemfile
