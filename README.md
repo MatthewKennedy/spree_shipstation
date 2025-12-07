@@ -26,18 +26,18 @@ The spree_shipstation extension connects your Spree store with [ShipStation](htt
     bundle exec rails generate spree_shipstation:install
     ```
 
-### Configuring Spree
+### Step 1: Configuring Spree
 
-Visit the Integrations section of your Spree store and configure the ShipStation integration, adding a username and password, (remember the password).
+Visit the **Integrations** section of your Spree store and configure the ShipStation integration by creating a unique username and password.
 
-### Configuring ShipStation
+### Step 2: Configuring ShipStation
 
 Create a new ShipStation store by visiting: **Settings** -> **Selling Channels** -> **Stores** -> **Add Store**, then selecting the **Custom Store** option.
 
 Enter the following details:
 
-- **Username**: the username defined in your config.
-- **Password**: the password defined in your config.
+- **Username**: The username you created in Step 1.
+- **Password**: The password you created in Step 1.
 - **URL to custom page**: `https://your-store-domain.com/shipstation.xml`.
 
 There are five shipment states for an order (= shipment) in ShipStation. These states do not
