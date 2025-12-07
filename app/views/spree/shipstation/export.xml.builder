@@ -37,6 +37,21 @@ xml.Orders(pages: (total_count / 50.0).ceil) do
           variant = line.variant
           next unless variant
 
+          weight_val = variant.weight || 0.0
+          raw_unit = line.variant.weight_unit
+
+          case raw_unit
+          when "lb"
+            weight_units = "Pounds"
+          when "oz"
+            weight_units = "Ounces"
+          when "kg"
+            weight_val *= 1000
+            weight_units = "Grams"
+          else
+            weight_units = "Grams"
+          end
+
           xml.Item do
             xml.SKU variant.sku
 
@@ -46,8 +61,8 @@ xml.Orders(pages: (total_count / 50.0).ceil) do
             image = variant.images.first || variant.product.master.images.first
             xml.ImageUrl image&.attachment&.url
 
-            xml.Weight variant.weight.to_f
-            xml.WeightUnits SpreeShipstation.configuration.weight_units
+            xml.Weight weight_val.to_f
+            xml.WeightUnits weight_units
             xml.Quantity line.quantity
             xml.UnitPrice line.price
 

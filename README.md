@@ -36,9 +36,6 @@ Configure your spree_shipstation Spree extension using the `spree_shipstation.rb
 # config/initializers/spree_shipstation.rb
 
 SpreeShipstation.configure do |config|
-  # Choose between Grams, Ounces or Pounds.
-  config.weight_units = "Grams"
-
   # ShipStation expects the endpoint to be protected by HTTP Basic Auth.
   # Set the username and password you desire for ShipStation to use.
   config.username = "create-a-username"
@@ -48,10 +45,6 @@ SpreeShipstation.configure do |config|
   # Set this to `true` and `config.auto_capture_on_dispatch = true` if you
   # want to charge your customers at the time of shipment.
   config.capture_at_notification = false
-
-  # Export canceled shipments to ShipStation
-  # Set this to `true` if you want canceled shipments included in the endpoint.
-  config.export_canceled_shipments = false
 end
 ```
 

@@ -2,19 +2,35 @@ RSpec.describe Spree::ShipstationController do
   render_views
 
   let!(:store) { create(:store, default: true) }
+  let!(:ssi) { create(:shipstation_integration) }
+  let(:inactive_integration) { instance_double("Spree::Integration::Shipstation", active?: false) }
 
   describe "#export" do
-    context "when the authentication is invalid" do
-      it "returns an error error" do
-        get :export, params: {format: "xml"}
+    context "when the integration is present, but not activated" do
+      before do
+        allow(controller).to receive(:store_integration).with("shipstation").and_return(inactive_integration)
+      end
 
+      it "returns a 404" do
+        get :export, params: {format: :xml}
+        expect(response.status).to eq(404)
+      end
+    end
+
+    context "when the authentication is invalid" do
+      it "returns 401" do
+        # Method call updated to use the helper
+        stub_basic_auth("some_wrong_username", "not_the_correct-password")
+        create(:order_ready_to_ship, store: store)
+
+        get :export, params: {format: :xml}
         expect(response.status).to eq(401)
       end
     end
 
     context "when the authentication is valid" do
       it "responds with 200 OK" do
-        stub_shipstation_auth
+        stub_basic_auth(ssi.preferred_username, ssi.preferred_password)
         create(:order_ready_to_ship, store: store)
 
         get :export,
@@ -29,7 +45,7 @@ RSpec.describe Spree::ShipstationController do
       end
 
       it "generates ShipStation-compliant XML" do
-        stub_shipstation_auth
+        stub_basic_auth(ssi.preferred_username, ssi.preferred_password)
         create(:order_ready_to_ship, store: store)
 
         get :export,
@@ -46,16 +62,42 @@ RSpec.describe Spree::ShipstationController do
   end
 
   describe "#shipnotify" do
+    context "when the integration is present, but not activated" do
+      before do
+        allow(controller).to receive(:store_integration).with("shipstation").and_return(inactive_integration)
+      end
+
+      it "returns 404" do
+        post :shipnotify, params: {
+          order_number: "123456",
+          tracking_number: "123456",
+          format: :xml
+        }
+        expect(response.status).to eq(404)
+      end
+    end
+
+    context "when the authentication is invalid" do
+      it "returns 401" do
+        post :shipnotify, params: {
+          order_number: "12334523",
+          tracking_number: "123456",
+          format: :xml
+        }
+        expect(response.status).to eq(401)
+      end
+    end
+
     context "when the authentication is valid" do
       context "when the shipment can be found" do
         it "responds with 200 OK" do
-          stub_shipstation_auth
+          stub_basic_auth(ssi.preferred_username, ssi.preferred_password)
           shipment = create(:order_ready_to_ship).shipments.first
 
           post :shipnotify, params: {
             order_number: shipment.number,
             tracking_number: "123456",
-            format: "xml"
+            format: :xml
           }
           shipment.reload
 
@@ -63,13 +105,13 @@ RSpec.describe Spree::ShipstationController do
         end
 
         it "updates the shipment" do
-          stub_shipstation_auth
+          stub_basic_auth(ssi.preferred_username, ssi.preferred_password)
           shipment = create(:order_ready_to_ship).shipments.first
 
           post :shipnotify, params: {
             order_number: shipment.number,
             tracking_number: "123456",
-            format: "xml"
+            format: :xml
           }
           shipment.reload
 
@@ -83,13 +125,13 @@ RSpec.describe Spree::ShipstationController do
 
       context "when the shipment cannot be found" do
         it "responds with 400 Bad Request" do
-          stub_shipstation_auth
+          stub_basic_auth(ssi.preferred_username, ssi.preferred_password)
           shipment = create(:order_ready_to_ship).shipments.first
 
           post :shipnotify, params: {
             order_number: "ABC123",
             tracking_number: "123456",
-            format: "xml"
+            format: :xml
           }
           shipment.reload
 
@@ -97,10 +139,5 @@ RSpec.describe Spree::ShipstationController do
         end
       end
     end
-  end
-
-  def stub_shipstation_auth(username = "company", password = "1Password-123")
-    stub_configuration(username: username, password: password)
-    request.headers["Authorization"] = ActionController::HttpAuthentication::Basic.encode_credentials(username, password)
   end
 end

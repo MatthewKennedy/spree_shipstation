@@ -2,9 +2,9 @@
 
 source "https://rubygems.org"
 
-gem "spree", branch: "main", git: "https://github.com/spree/spree.git"
-gem "spree_emails", branch: "main", git: "https://github.com/spree/spree.git"
-gem "spree_admin", branch: "main", git: "https://github.com/spree/spree.git"
+gem "spree", "~> 5.2.0"
+gem "spree_emails", "~> 5.2.0"
+gem "spree_admin", "~> 5.2.0"
 gem "spree_storefront", branch: "main", git: "https://github.com/spree/spree.git"
 gem "appraisal", "~> 2.5"
 gem "rails-controller-testing"
