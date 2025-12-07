@@ -13,6 +13,5 @@ gem "spree_dev_tools"
 gem "sprockets-rails"
 gem "sqlite3", ">= 2.0"
 gem "standard", "~> 1.52"
-gem "propshaft"
 
 gemspec path: "../"

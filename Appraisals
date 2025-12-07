@@ -4,8 +4,6 @@ appraise "spree-5-1" do
   gem "spree", spree
   gem "spree_emails", spree
   gem "spree_admin", spree
-
-  gem "sprockets-rails"
 end
 
 appraise "spree-5-2" do
@@ -14,8 +12,6 @@ appraise "spree-5-2" do
   gem "spree", spree
   gem "spree_emails", spree
   gem "spree_admin", spree
-
-  gem "propshaft"
 end
 
 appraise "spree-main" do
@@ -24,6 +20,4 @@ appraise "spree-main" do
   gem "spree", spree_opts
   gem "spree_emails", spree_opts
   gem "spree_admin", spree_opts
-
-  gem "propshaft"
 end
