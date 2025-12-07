@@ -11,7 +11,7 @@ en:
           username: Username
           password: Password
           brand_name: ShipStation
-          description: Centralize your shipping operations. Integrate with ShipStation to access discounted rates and automated workflows from a single dashboard.
+          description: Integrate with ShipStation to automated your shippng workflows from a single dashboard.
           capture_at_notification: Capture payment when shipment notification recieved from ShipStation
   shipment_not_found: Shipment %{number} was not found
   import_tracking_error: "Tracking number cannot be imported. Error: %{error}"
