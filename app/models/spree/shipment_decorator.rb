@@ -6,7 +6,7 @@ module Spree
       base.scope :exportable, -> {
         joins(:order)
           .merge(::Spree::Order.complete)
-          .where(state: 'ready')
+          .where(state: "ready")
           .order(:updated_at)
       }
 

@@ -13,7 +13,7 @@ module Spree
       # Allows: a-z, A-Z, 0-9, ., _, @, +, -
       validates :preferred_username,
         format: {
-          with: /\A[a-zA-Z0-9._@+\-]+\z/,
+          with: /\A[a-zA-Z0-9._@+-]+\z/,
           message: Spree.t("admin.integrations.shipstation.username_chars_error")
         },
         allow_blank: true
