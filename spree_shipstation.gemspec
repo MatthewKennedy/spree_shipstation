@@ -24,6 +24,7 @@ Gem::Specification.new do |s|
 
   spree_version = ">= 5.0", "< 6.0"
 
+  s.add_dependency "kaminari"
   s.add_dependency "spree", spree_version
   s.add_dependency "spree_extension"
 end
