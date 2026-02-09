@@ -38,9 +38,9 @@ module SpreeShipstation
       shipment.tracking = shipment_tracking
       shipment.save!
 
-      unless shipment.shipped?
-        shipment.reload.ship!
-      end
+      return if shipment.shipped?
+
+      shipment.reload.ship!
     end
   end
 end

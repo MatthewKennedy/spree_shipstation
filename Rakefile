@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 require "bundler"
 Bundler::GemHelper.install_tasks
 
@@ -19,5 +17,7 @@ end
 desc "Generates a dummy app for testing"
 task :test_app do
   ENV["LIB_NAME"] = "spree_shipstation"
-  Rake::Task["extension:test_app"].invoke
+  Rake::Task["extension:test_app"].execute(
+    install_admin: true
+  )
 end

@@ -2,9 +2,7 @@
 
 xml.instruct!
 
-total_count = @shipments.respond_to?(:total_count) ? @shipments.total_count : @shipments.count
-
-xml.Orders(pages: (total_count / 50.0).ceil) do
+xml.Orders(pages: @pagy.pages) do
   @shipments.each do |shipment|
     order = shipment.order
 

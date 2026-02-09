@@ -12,9 +12,7 @@ module SpreeShipstation
     end
 
     initializer "spree_shipstation.assets" do |app|
-      if app.config.respond_to?(:assets)
-        app.config.assets.precompile += %w[spree_shipstation_manifest]
-      end
+      app.config.assets.precompile += %w[spree_shipstation_manifest] if app.config.respond_to?(:assets)
     end
 
     def self.activate

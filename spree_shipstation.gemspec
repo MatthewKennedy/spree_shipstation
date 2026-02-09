@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-lib = File.expand_path("../lib/", __FILE__)
+lib = File.expand_path("lib", __dir__)
 $LOAD_PATH.unshift lib unless $LOAD_PATH.include?(lib)
 
 require "spree_shipstation/version"
@@ -18,13 +18,13 @@ Gem::Specification.new do |s|
   s.homepage = "https://github.com/matthewkennedy/spree_shipstation"
   s.license = "MIT"
 
-  s.files = `git ls-files`.split("\n").reject { |f| f.match(/^spec/) && !f.match(/^spec\/fixtures/) }
+  s.files = `git ls-files`.split("\n").reject { |f| f.match(/^spec/) && !f.match(%r{^spec/fixtures}) }
   s.require_path = "lib"
   s.requirements << "none"
 
   spree_version = ">= 5.0", "< 6.0"
 
-  s.add_dependency "kaminari"
+  s.add_dependency "pagy", "~> 43.0"
   s.add_dependency "spree", spree_version
   s.add_dependency "spree_extension"
 end

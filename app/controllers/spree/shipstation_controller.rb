@@ -3,6 +3,7 @@
 module Spree
   class ShipstationController < Spree::BaseController
     include Spree::IntegrationsHelper
+    include Pagy::Method
 
     protect_from_forgery with: :null_session, only: :shipnotify
 
@@ -10,23 +11,14 @@ module Spree
     before_action :authenticate_shipstation
 
     def export
-      @shipments = current_store.shipments
-        .exportable
-        .includes(
-          :order,
-          inventory_units: {
-            line_item: {
-              variant: [
-                :product,
-                :images,
-                {option_values: :option_type}
-              ]
-            }
-          }
-        )
-        .between(date_param(:start_date), date_param(:end_date))
-        .page(params[:page])
-        .per(50)
+      @pagy, @shipments = pagy(
+        current_store.shipments
+          .exportable
+          .includes(:order, inventory_units: {line_item: {variant: [:product, :images, {option_values: :option_type}]}})
+          .between(date_param(:start_date), date_param(:end_date)),
+        page: params[:page],
+        items: 50
+      )
 
       respond_to do |format|
         format.xml { render layout: false }
