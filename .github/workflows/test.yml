@@ -7,28 +7,26 @@ on:
   push:
     branches:
     - master
-
 jobs:
   sqlite:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        ruby: ['3.3', '3.4']
-        gemfile:
-        - spree_5_2
-        - spree_main
+        ruby: ['3.4']
+        gemfile: [spree_5_2, spree_5_3]
     env:
       BUNDLE_GEMFILE: ${{ github.workspace }}/gemfiles/${{ matrix.gemfile }}.gemfile
       BUNDLE_PATH_RELATIVE_TO_CWD: true
+      RAILS_ENV: test
     steps:
     - uses: actions/checkout@v6
     - name: Set up Ruby ${{ matrix.ruby }}
       uses: ruby/setup-ruby@v1
       with:
         ruby-version: ${{ matrix.ruby }}
-        bundler-cache: true
-    - name: Run tests
-      env:
-        RAILS_ENV: test
+        bundler-cache: false
+    - name: Bundle Install
+      run: bundle install
+    - name: Run Tests
       run: bundle exec rake

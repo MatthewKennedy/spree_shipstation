@@ -3,14 +3,14 @@
 module Spree
   module ShipmentDecorator
     def self.prepended(base)
-      base.scope :exportable, -> {
+      base.scope :exportable, lambda {
         joins(:order)
           .merge(::Spree::Order.complete)
           .where(state: "ready")
           .order(:updated_at)
       }
 
-      base.scope :between, ->(from, to) {
+      base.scope :between, lambda { |from, to|
         range = from..to
 
         shipment_match = joins(:order).where(updated_at: range)

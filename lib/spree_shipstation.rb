@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "pagy"
+
 require "spree_core"
 require "spree_extension"
 
