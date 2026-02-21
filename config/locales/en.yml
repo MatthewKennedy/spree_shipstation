@@ -11,8 +11,5 @@ en:
           username: Username
           password: Password
           brand_name: ShipStation
-          description: Integrate with ShipStation to automated your shippng workflows from a single dashboard.
-          capture_at_notification: Capture payment when shipment notification recieved from ShipStation
-  shipment_not_found: Shipment %{number} was not found
-  import_tracking_error: "Tracking number cannot be imported. Error: %{error}"
-  capture_payment_error: "Error in capture of payment for order %{number}. Error: %{error}"
+          description: Integrate with ShipStation to automate your shipping workflows from a single dashboard.
+          capture_at_notification: Capture payment when shipment notification received from ShipStation

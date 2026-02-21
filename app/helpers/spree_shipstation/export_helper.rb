@@ -29,6 +29,21 @@ module SpreeShipstation
       end
     end
 
+    def self.weight(variant)
+      value = variant.weight || 0.0
+
+      case variant.weight_unit
+      when "lb"
+        [value.to_f, "Pounds"]
+      when "oz"
+        [value.to_f, "Ounces"]
+      when "kg"
+        [(value * 1000).to_f, "Grams"]
+      else
+        [value.to_f, "Grams"]
+      end
+    end
+
     class << self
       private
 

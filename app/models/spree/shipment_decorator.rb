@@ -16,7 +16,7 @@ module Spree
         shipment_match = joins(:order).where(updated_at: range)
         order_match = joins(:order).where(spree_orders: {updated_at: range})
 
-        shipment_match.or(order_match)
+        shipment_match.or(order_match).distinct
       }
     end
 
