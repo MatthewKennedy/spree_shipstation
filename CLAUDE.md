@@ -47,7 +47,7 @@ The extension registers itself with Spree's integration framework via `config/in
 **Export (GET `/shipstation`)** — ShipStation polls this endpoint to fetch shipments ready to process:
 1. `Spree::ShipstationController#export` authenticates via HTTP Basic Auth using credentials stored on the active store integration.
 2. Queries `current_store.shipments.exportable` — a scope added by `Spree::ShipmentDecorator` that filters for `state: "ready"` on complete orders.
-3. Filters by `start_date`/`end_date` params (matching either shipment or order `updated_at`).
+3. Filters by `start_date`/`end_date` params (matching either shipment or order `updated_at`). If both params are absent or invalid, all exportable shipments are returned with no date filter.
 4. Renders `app/views/spree/shipstation/export.xml.builder` using the `builder` gem. XML structure is validated against `spec/fixtures/shipstation_xml_schema.xsd` in tests.
 5. Results are paginated at 50 per page.
 
@@ -56,11 +56,13 @@ The extension registers itself with Spree's integration framework via `config/in
 2. `ShipmentNotice#apply` looks up the `Spree::Shipment` by number, sets the tracking number, saves, then calls `ship!` unless already shipped.
 3. Errors from `SpreeShipstation::Error` subclasses return HTTP 400; successes return HTTP 200.
 
+> **Note on naming:** ShipStation's webhook param is called `order_number` but its value is actually the *shipment* number — it mirrors the `<OrderNumber>` field from the export XML, which is set to `shipment.number`.
+
 ### Key Files
 
 | File | Purpose |
 |------|---------|
-| `app/controllers/spree/shipstation_controller.rb` | Both endpoints; auth + integration guard |
+| `app/controllers/spree/shipstation_controller.rb` | Both endpoints; auth (constant-time `secure_compare`) + integration guard |
 | `app/models/spree/integrations/shipstation.rb` | Integration model with credential preferences and validations |
 | `app/models/spree/shipment_decorator.rb` | Adds `:exportable` and `:between` scopes to `Spree::Shipment` |
 | `lib/spree_shipstation/shipment_notice.rb` | Plain Ruby object that applies a ship notification |
