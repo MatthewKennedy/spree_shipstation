@@ -11,12 +11,14 @@ module Spree
       }
 
       base.scope :between, lambda { |from, to|
+        return all if from.nil? && to.nil?
+
         range = from..to
 
         shipment_match = joins(:order).where(updated_at: range)
         order_match = joins(:order).where(spree_orders: {updated_at: range})
 
-        shipment_match.or(order_match)
+        shipment_match.or(order_match).distinct
       }
     end
 

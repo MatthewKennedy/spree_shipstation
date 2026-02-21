@@ -26,7 +26,7 @@ module Spree
     end
 
     def shipnotify
-      SpreeShipstation::ShipmentNotice.from_payload(params.to_unsafe_h).apply
+      SpreeShipstation::ShipmentNotice.from_payload(params.to_unsafe_h, store: current_store).apply
       head :ok
     rescue SpreeShipstation::Error => e
       Rails.logger.error("ShipStation Notification Error: #{e.message}")
@@ -36,9 +36,7 @@ module Spree
     private
 
     def ensure_active_integration
-      unless store_integration("shipstation")&.active?
-        head :not_found
-      end
+      head :not_found unless store_integration("shipstation")&.active?
     end
 
     def date_param(name)
@@ -51,8 +49,9 @@ module Spree
 
     def authenticate_shipstation
       authenticate_or_request_with_http_basic do |username, password|
-        username == store_integration("shipstation").preferred_username &&
-          password == store_integration("shipstation").preferred_password
+        integration = store_integration("shipstation")
+        ActiveSupport::SecurityUtils.secure_compare(username.to_s, integration.preferred_username.to_s) &&
+          ActiveSupport::SecurityUtils.secure_compare(password.to_s, integration.preferred_password.to_s)
       end
     end
   end

@@ -38,7 +38,8 @@ RSpec.describe SpreeShipstation::ShipmentNotice do
   def build_shipment_notice(shipment, shipment_tracking: "1Z1231234")
     SpreeShipstation::ShipmentNotice.new(
       shipment_number: shipment.number,
-      shipment_tracking: shipment_tracking
+      shipment_tracking: shipment_tracking,
+      store: shipment.order.store
     )
   end
 

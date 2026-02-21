@@ -52,6 +52,16 @@ Shipped                 | `shipped`          | `shipped`
 Cancelled               | `cancelled`        | `cancelled`
 On-Hold                 | `on-hold`          | `pending`
 
+## Configuration
+
+### Payment capture on dispatch
+
+The integration respects Spree's `auto_capture_on_dispatch` setting. When enabled in your Spree store, pending payments are captured automatically before a shipment is marked as shipped. If a payment capture fails, an error is returned to ShipStation (HTTP 400), preventing the shipment from being marked as shipped until the issue is resolved.
+
+### Pagination
+
+The export endpoint returns up to **50 shipments per page**. ShipStation handles pagination automatically using the `page` query parameter.
+
 ## Usage
 
 There's nothing you need to do. Once properly configured, the integration just works!
