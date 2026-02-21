@@ -36,7 +36,7 @@ module Spree
     private
 
     def ensure_active_integration
-      return head :not_found unless store_integration("shipstation")&.active?
+      head :not_found unless store_integration("shipstation")&.active?
     end
 
     def date_param(name)
