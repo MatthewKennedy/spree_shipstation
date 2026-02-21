@@ -44,7 +44,8 @@ xml.Orders(pages: @pagy.pages) do
             xml.Name name_parts.reject(&:blank?).join(" ")
 
             image = variant.images.first || variant.product.master.images.first
-            xml.ImageUrl image&.attachment&.url
+            image_url = image&.attachment&.url
+            xml.ImageUrl image_url if image_url
 
             xml.Weight weight_val
             xml.WeightUnits weight_units

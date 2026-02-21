@@ -14,4 +14,10 @@ module SpreeShipstation
       super("Could not process payment #{payment.id}", *args)
     end
   end
+
+  class OrderNotPaidError < Error
+    def initialize(order, *args)
+      super("Order #{order.number} has not been paid", *args)
+    end
+  end
 end

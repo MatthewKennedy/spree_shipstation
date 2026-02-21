@@ -2,6 +2,11 @@
 
 RSpec.describe Spree::Shipment do
   describe ".between" do
+    it "returns all shipments when both dates are nil" do
+      shipment = create(:shipment)
+      expect(described_class.between(nil, nil)).to include(shipment)
+    end
+
     it "returns shipments whose updated_at falls within the given time range" do
       shipment = create(:shipment) { |s| s.update_column(:updated_at, Time.zone.now) }
       expect(described_class.between(Time.zone.yesterday, Time.zone.tomorrow)).to eq([shipment])

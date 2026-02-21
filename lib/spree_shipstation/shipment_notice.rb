@@ -7,6 +7,8 @@ module SpreeShipstation
     class << self
       def from_payload(params, store:)
         new(
+          # ShipStation's webhook param is named `order_number` but its value is the
+          # shipment number — it mirrors the <OrderNumber> field from the export XML.
           shipment_number: params[:order_number],
           shipment_tracking: params[:tracking_number],
           store: store
