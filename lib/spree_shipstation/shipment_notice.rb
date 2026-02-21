@@ -39,6 +39,8 @@ module SpreeShipstation
     end
 
     def ship_shipment
+      raise MissingTrackingNumberError if shipment_tracking.blank?
+
       capture_pending_payments! if Spree::Config.auto_capture_on_dispatch
 
       shipment.tracking = shipment_tracking

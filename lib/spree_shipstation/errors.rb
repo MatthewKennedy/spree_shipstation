@@ -15,4 +15,9 @@ module SpreeShipstation
     end
   end
 
+  class MissingTrackingNumberError < Error
+    def initialize(*args)
+      super("Tracking number is required", *args)
+    end
+  end
 end
