@@ -15,9 +15,4 @@ module SpreeShipstation
     end
   end
 
-  class OrderNotPaidError < Error
-    def initialize(order, *args)
-      super("Order #{order.number} has not been paid", *args)
-    end
-  end
 end

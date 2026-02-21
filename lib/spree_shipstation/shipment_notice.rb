@@ -44,7 +44,7 @@ module SpreeShipstation
       shipment.tracking = shipment_tracking
       shipment.save!
 
-      shipment.reload.ship! unless shipment.shipped?
+      shipment.ship! unless shipment.shipped?
     end
 
     def capture_pending_payments!

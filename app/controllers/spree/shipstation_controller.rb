@@ -30,7 +30,7 @@ module Spree
       head :ok
     rescue SpreeShipstation::Error => e
       Rails.logger.error("ShipStation Notification Error: #{e.message}")
-      head :bad_request
+      render plain: e.message, status: :bad_request
     end
 
     private

@@ -25,7 +25,7 @@ xml.Orders(pages: @pagy.pages) do
       xml.CustomField1 order.number
 
       xml.Customer do
-        xml.CustomerCode order.email.slice(0, 50)
+        xml.CustomerCode order.email&.slice(0, 50)
         SpreeShipstation::ExportHelper.address(xml, order, :bill)
         SpreeShipstation::ExportHelper.address(xml, order, :ship)
       end

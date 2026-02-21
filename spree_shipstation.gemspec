@@ -9,9 +9,9 @@ Gem::Specification.new do |s|
   s.platform = Gem::Platform::RUBY
   s.name = "spree_shipstation"
   s.version = SpreeShipstation.version
-  s.summary = "Add extension summary here"
-  s.description = "Add (optional) extension description here"
-  s.required_ruby_version = ">= 2.2.7"
+  s.summary = "ShipStation integration for Spree e-commerce"
+  s.description = "Connects Spree stores to ShipStation via an XML export endpoint and shipnotify webhook, enabling automated label creation and shipment tracking."
+  s.required_ruby_version = ">= 3.1"
 
   s.author = "Matthew Kennedy"
   s.email = "m.kennedy@me.com"
@@ -20,11 +20,10 @@ Gem::Specification.new do |s|
 
   s.files = `git ls-files`.split("\n").reject { |f| f.match(/^spec/) && !f.match(%r{^spec/fixtures}) }
   s.require_path = "lib"
-  s.requirements << "none"
 
   spree_version = ">= 5.0", "< 6.0"
 
-  s.add_dependency "pagy", "~> 43.0"
+  s.add_dependency "pagy", ">= 43.0", "< 45.0"
   s.add_dependency "spree", spree_version
   s.add_dependency "spree_extension"
 end
