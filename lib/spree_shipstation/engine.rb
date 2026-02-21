@@ -4,7 +4,7 @@ module SpreeShipstation
   class Engine < Rails::Engine
     require "spree/core"
     isolate_namespace Spree
-    engine_name "spree_simple_sales"
+    engine_name "spree_shipstation"
 
     # use rspec for tests
     config.generators do |g|

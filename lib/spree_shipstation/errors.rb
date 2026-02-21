@@ -3,12 +3,6 @@
 module SpreeShipstation
   class Error < StandardError; end
 
-  class OrderNotPaidError < Error
-    def initialize(order, *args)
-      super("Order #{order.number} is not paid and capture_at_notification is false", *args)
-    end
-  end
-
   class ShipmentNotFoundError < Error
     def initialize(shipment_number, *args)
       super("Could not find shipment with number #{shipment_number}", *args)

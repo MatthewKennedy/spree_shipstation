@@ -35,20 +35,7 @@ xml.Orders(pages: @pagy.pages) do
           variant = line.variant
           next unless variant
 
-          weight_val = variant.weight || 0.0
-          raw_unit = line.variant.weight_unit
-
-          case raw_unit
-          when "lb"
-            weight_units = "Pounds"
-          when "oz"
-            weight_units = "Ounces"
-          when "kg"
-            weight_val *= 1000
-            weight_units = "Grams"
-          else
-            weight_units = "Grams"
-          end
+          weight_val, weight_units = SpreeShipstation::ExportHelper.weight(variant)
 
           xml.Item do
             xml.SKU variant.sku
@@ -59,7 +46,7 @@ xml.Orders(pages: @pagy.pages) do
             image = variant.images.first || variant.product.master.images.first
             xml.ImageUrl image&.attachment&.url
 
-            xml.Weight weight_val.to_f
+            xml.Weight weight_val
             xml.WeightUnits weight_units
             xml.Quantity line.quantity
             xml.UnitPrice line.price
