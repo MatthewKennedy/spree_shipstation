@@ -100,6 +100,13 @@ To fix basic code formatting issues run:
 bundle exec standardrb --fix
 ```
 
+## Releasing
+
+```bash
+bundle exec gem bump -p -t
+bundle exec gem release
+```
+
 ## License
 
 Copyright (c) 2025 Matthew Kennedy, released under the New BSD License.
