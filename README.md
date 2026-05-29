@@ -11,7 +11,7 @@ The spree_shipstation integration connects your Spree stores with [ShipStation](
 1. Add this extension to your Gemfile with this line:
 
     ```ruby
-    gem "spree_shipstation", github: "matthewkennedy/spree_shipstation", tag: "v2.0.0"
+    gem "spree_shipstation", github: "MatthewKennedy/spree_shipstation", tag: "v3.0.0"
     ```
 
 2. Install the gem using Bundler
@@ -20,11 +20,7 @@ The spree_shipstation integration connects your Spree stores with [ShipStation](
     bundle install
     ```
 
-3. Copy & run install the generator
-
-    ```shell
-    bundle exec rails generate spree_shipstation:install
-    ```
+The extension registers itself with Spree's integration framework automatically — there are no migrations or generators to run.
 
 ### Step 1: Configuring Spree
 
@@ -109,4 +105,4 @@ bundle exec gem release
 
 ## License
 
-Copyright (c) 2025 Matthew Kennedy, released under the New BSD License.
+Copyright (c) 2026 Matthew Kennedy, released under the New BSD License.
