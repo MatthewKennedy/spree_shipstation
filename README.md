@@ -105,4 +105,4 @@ bundle exec gem release
 
 ## License
 
-Copyright (c) 2026 Matthew Kennedy, released under the New BSD License.
+Copyright (c) 2026 Matthew Kennedy, released under the MIT License.
