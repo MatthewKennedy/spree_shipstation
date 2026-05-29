@@ -6,8 +6,6 @@ xml.Orders(pages: @pagy.pages) do
   @shipments.each do |shipment|
     order = shipment.order
 
-    next unless order
-
     xml.Order do
       xml.OrderID shipment.id
       xml.OrderNumber shipment.number
@@ -25,13 +23,13 @@ xml.Orders(pages: @pagy.pages) do
       xml.CustomField1 order.number
 
       xml.Customer do
-        xml.CustomerCode order.email.slice(0, 50)
+        xml.CustomerCode order.email&.slice(0, 50)
         SpreeShipstation::ExportHelper.address(xml, order, :bill)
         SpreeShipstation::ExportHelper.address(xml, order, :ship)
       end
 
       xml.Items do
-        shipment.line_items.each do |line|
+        shipment.inventory_units.group_by(&:line_item).each do |line, units|
           variant = line.variant
           next unless variant
 
@@ -44,12 +42,12 @@ xml.Orders(pages: @pagy.pages) do
             xml.Name name_parts.reject(&:blank?).join(" ")
 
             image = variant.images.first || variant.product.master.images.first
-            image_url = image&.attachment&.url
+            image_url = image && url_for(image.attachment)
             xml.ImageUrl image_url if image_url
 
             xml.Weight weight_val
             xml.WeightUnits weight_units
-            xml.Quantity line.quantity
+            xml.Quantity units.size
             xml.UnitPrice line.price
 
             if variant.option_values.present?

@@ -26,11 +26,11 @@ module Spree
     end
 
     def shipnotify
-      SpreeShipstation::ShipmentNotice.from_payload(params.to_unsafe_h, store: current_store).apply
+      SpreeShipstation::ShipmentNotice.from_payload(params.permit(:order_number, :tracking_number).to_h, store: current_store).apply
       head :ok
     rescue SpreeShipstation::Error => e
       Rails.logger.error("ShipStation Notification Error: #{e.message}")
-      head :bad_request
+      render plain: e.message, status: :bad_request
     end
 
     private

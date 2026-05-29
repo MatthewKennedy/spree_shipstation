@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module SpreeShipstation
-  VERSION = '2.0.7'.freeze
+  VERSION = "3.0.0"
 
   def self.version
     Gem::Version.new(VERSION)

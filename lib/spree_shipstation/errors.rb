@@ -15,9 +15,9 @@ module SpreeShipstation
     end
   end
 
-  class OrderNotPaidError < Error
-    def initialize(order, *args)
-      super("Order #{order.number} has not been paid", *args)
+  class MissingTrackingNumberError < Error
+    def initialize(*args)
+      super("Tracking number is required", *args)
     end
   end
 end
