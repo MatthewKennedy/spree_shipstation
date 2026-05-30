@@ -53,8 +53,8 @@ The extension registers itself with Spree's integration framework via `config/in
 
 **Shipnotify (POST `/shipstation`)** — ShipStation calls this when a label is created:
 1. `Spree::ShipstationController#shipnotify` passes `order_number` and `tracking_number` params to `SpreeShipstation::ShipmentNotice.from_payload`.
-2. `ShipmentNotice#apply` looks up the `Spree::Shipment` by number, sets the tracking number, saves, then calls `ship!` unless already shipped.
-3. Errors from `SpreeShipstation::Error` subclasses return HTTP 400; successes return HTTP 200.
+2. `ShipmentNotice#apply` looks up the `Spree::Shipment` by number on `current_store` and, inside a transaction: captures pending payments if `Spree::Config.auto_capture_on_dispatch` is on, sets the tracking number, saves, then calls `ship!` unless already shipped.
+3. Errors from `SpreeShipstation::Error` subclasses return HTTP 400; successes return HTTP 200. The webhook is written to be safe for ShipStation to retry.
 
 > **Note on naming:** ShipStation's webhook param is called `order_number` but its value is actually the *shipment* number — it mirrors the `<OrderNumber>` field from the export XML, which is set to `shipment.number`.
 
@@ -66,7 +66,7 @@ The extension registers itself with Spree's integration framework via `config/in
 | `app/models/spree/integrations/shipstation.rb` | Integration model with credential preferences and validations |
 | `app/models/spree/shipment_decorator.rb` | Adds `:exportable` and `:between` scopes to `Spree::Shipment` |
 | `lib/spree_shipstation/shipment_notice.rb` | Plain Ruby object that applies a ship notification |
-| `lib/spree_shipstation/errors.rb` | Custom error hierarchy (`ShipmentNotFoundError`, `PaymentError`, `OrderNotPaidError`) |
+| `lib/spree_shipstation/errors.rb` | Custom error hierarchy (`ShipmentNotFoundError`, `PaymentError`, `MissingTrackingNumberError`) |
 | `app/helpers/spree_shipstation/export_helper.rb` | Helper methods for building address XML nodes |
 | `app/views/spree/shipstation/export.xml.builder` | XML template for ShipStation export |
 | `app/views/spree/admin/integrations/forms/_shipstation.html.erb` | Admin UI partial for configuring credentials |
@@ -77,13 +77,3 @@ The extension registers itself with Spree's integration framework via `config/in
 - `spec/support/xsd.rb` — provides the `pass_validation(xsd_path)` RSpec matcher for XML schema validation.
 - `spec/support/shipment_helper.rb` — shipment-related test helpers.
 - `lib/spree_shipstation/testing_support/factories/shipstation_integration.rb` — FactoryBot factory for `Spree::Integrations::Shipstation`.
-
-### ShipStation Status Mapping
-
-ShipStation status | Spree shipment state
--------------------|-----------------------
-`unpaid`           | `pending`
-`paid`             | `ready`
-`shipped`          | `shipped`
-`cancelled`        | `cancelled`
-`on-hold`          | `pending`

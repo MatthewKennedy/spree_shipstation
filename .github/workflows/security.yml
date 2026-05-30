@@ -1,0 +1,41 @@
+---
+name: Security
+on:
+  pull_request:
+    branches:
+    - '*'
+  push:
+    branches:
+    - main
+jobs:
+  brakeman:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        ruby: ['3.4']
+    steps:
+    - uses: actions/checkout@v6
+    - name: Set up Ruby ${{ matrix.ruby }}
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: ${{ matrix.ruby }}
+        bundler-cache: true
+    - name: Run Brakeman
+      # --force scans the engine even though it is not a full Rails app;
+      # --exit-on-warn fails the build when any security warning is found.
+      run: bundle exec brakeman --force --no-pager --quiet --exit-on-warn
+
+  bundler-audit:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        ruby: ['3.4']
+    steps:
+    - uses: actions/checkout@v6
+    - name: Set up Ruby ${{ matrix.ruby }}
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: ${{ matrix.ruby }}
+        bundler-cache: true
+    - name: Run bundler-audit
+      run: bundle exec bundle-audit check --update
