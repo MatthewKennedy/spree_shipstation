@@ -41,6 +41,12 @@ module SpreeShipstation
     def ship_shipment
       raise MissingTrackingNumberError if shipment_tracking.blank?
 
+      # Payment capture is performed synchronously, inside the webhook request and
+      # the surrounding transaction, so a capture failure aborts the ship and is
+      # reported back to ShipStation as an error (HTTP 400) rather than silently
+      # shipping an uncaptured order. ShipStation retries failed webhooks, so the
+      # operation is written to be safe to repeat: an already-shipped shipment is
+      # not re-shipped (see below) and capture only targets still-pending payments.
       capture_pending_payments! if Spree::Config.auto_capture_on_dispatch
 
       shipment.tracking = shipment_tracking

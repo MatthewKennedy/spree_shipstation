@@ -54,9 +54,21 @@ On-Hold                 | `on-hold`          | `pending`
 
 The integration respects Spree's `auto_capture_on_dispatch` setting. When enabled in your Spree store, pending payments are captured automatically before a shipment is marked as shipped. If a payment capture fails, an error is returned to ShipStation (HTTP 400), preventing the shipment from being marked as shipped until the issue is resolved.
 
+Payment capture happens **synchronously** within the shipnotify webhook request (inside a database transaction) so that a shipment is never marked as shipped against an uncaptured payment. ShipStation automatically retries failed webhook deliveries, and the operation is designed to be safe to repeat: a shipment that is already `shipped` is not shipped again, and only still-pending payments are captured. If your payment gateway is slow, be aware that the capture round-trip occurs in the request cycle.
+
 ### Pagination
 
 The export endpoint returns up to **50 shipments per page**. ShipStation handles pagination automatically using the `page` query parameter.
+
+## Security considerations
+
+- **Serve the endpoints over HTTPS.** Both `/shipstation` endpoints authenticate with HTTP Basic Auth, which transmits the configured username and password (base64-encoded) on every request. Always terminate these requests over TLS in production so the credentials are not exposed in transit. Credentials are compared in constant time to avoid timing attacks.
+- **Consider rate limiting.** The gem does not throttle authentication attempts. If you want brute-force protection, add it at the application or edge layer (for example, [`rack-attack`](https://github.com/rack/rack-attack)). The enforced credential length (10–30 character username, 20–60 character complex password) already makes guessing impractical.
+- **Response codes.** When no active ShipStation integration is configured, the endpoints respond with `404` before authentication is checked; a configured-but-unauthenticated request responds with `401`. This is intentional, but be aware it reveals whether the integration is configured.
+
+## Performance
+
+The export query eager-loads its association graph to avoid N+1 queries. The `exportable` scope filters shipments by `state` and orders them by `updated_at`, joining and filtering orders by their `updated_at`. The gem ships no migrations of its own; on large stores, ensure the relevant Spree core columns (`spree_shipments.state`, `spree_shipments.updated_at`, `spree_orders.updated_at`) are adequately indexed in your application's database.
 
 ## Usage
 
