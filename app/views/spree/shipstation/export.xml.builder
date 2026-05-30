@@ -1,58 +1,49 @@
-# frozen_string_literal: true
-
 xml.instruct!
 
 xml.Orders(pages: @pagy.pages) do
   @shipments.each do |shipment|
-    order = shipment.order
+    order = SpreeShipstation::Export::OrderPresenter.new(shipment)
 
     xml.Order do
-      xml.OrderID shipment.id
-      xml.OrderNumber shipment.number
+      xml.OrderID order.order_id
+      xml.OrderNumber order.order_number
 
-      xml.OrderDate order.completed_at&.strftime(SpreeShipstation::ExportHelper::DATE_FORMAT)
-      xml.OrderStatus shipment.state
+      xml.OrderDate order.order_date
+      xml.OrderStatus order.order_status
+      xml.LastModified order.last_modified
 
-      last_modified = [order.completed_at, shipment.updated_at].compact.max
-      xml.LastModified last_modified&.strftime(SpreeShipstation::ExportHelper::DATE_FORMAT)
-
-      xml.ShippingMethod shipment.shipping_method&.name
-      xml.OrderTotal order.total
+      xml.ShippingMethod order.shipping_method_name
+      xml.OrderTotal order.order_total
       xml.TaxAmount order.tax_total
       xml.ShippingAmount order.ship_total
-      xml.CustomField1 order.number
+      xml.CustomField1 order.custom_field_1
 
       xml.Customer do
-        xml.CustomerCode order.email&.slice(0, 50)
-        SpreeShipstation::ExportHelper.address(xml, order, :bill)
-        SpreeShipstation::ExportHelper.address(xml, order, :ship)
+        xml.CustomerCode order.customer_code
+        SpreeShipstation::ExportHelper.bill_address(xml, order.bill_address)
+        SpreeShipstation::ExportHelper.ship_address(xml, order.ship_address)
       end
 
       xml.Items do
-        shipment.inventory_units.group_by(&:line_item).each do |line, units|
-          variant = line.variant
-          next unless variant
-
-          weight_val, weight_units = SpreeShipstation::ExportHelper.weight(variant)
+        order.items.each do |item|
+          weight = item.weight
+          image = item.image
 
           xml.Item do
-            xml.SKU variant.sku
+            xml.SKU item.sku
+            xml.Name item.name
 
-            name_parts = [variant.product.name, variant.options_text]
-            xml.Name name_parts.reject(&:blank?).join(" ")
-
-            image = variant.images.first || variant.product.master.images.first
             image_url = image && url_for(image.attachment)
             xml.ImageUrl image_url if image_url
 
-            xml.Weight weight_val
-            xml.WeightUnits weight_units
-            xml.Quantity units.size
-            xml.UnitPrice line.price
+            xml.Weight weight.value
+            xml.WeightUnits weight.units
+            xml.Quantity item.quantity
+            xml.UnitPrice item.unit_price
 
-            if variant.option_values.present?
+            if item.option_values.present?
               xml.Options do
-                variant.option_values.each do |value|
+                item.option_values.each do |value|
                   xml.Option do
                     xml.Name value.option_type.presentation
                     xml.Value value.name

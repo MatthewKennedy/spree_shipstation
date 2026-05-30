@@ -14,7 +14,6 @@ module Spree
       @pagy, @shipments = pagy(
         current_store.shipments
           .exportable
-          .includes(:order, inventory_units: {line_item: {variant: [:product, :images, {option_values: :option_type}]}})
           .between(date_param(:start_date), date_param(:end_date)),
         page: params[:page],
         items: 50
