@@ -125,7 +125,7 @@ RSpec.describe SpreeShipstation::ShipmentNotice do
   # Transitions the order's existing (checkout-state) payment into the `pending`
   # state so that `Spree::Payment.pending` returns it, exercising the capture path.
   def pending_payment_for(order)
-    order.payments.first.tap { |payment| payment.update_column(:state, "pending") }
+    order.payments.reload.first.tap { |payment| payment.update_column(:state, "pending") }
   end
 
   def build_shipment_notice(shipment, shipment_tracking: "1Z1231234")
