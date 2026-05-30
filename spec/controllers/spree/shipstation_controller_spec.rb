@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe Spree::ShipstationController do
   render_views
 
@@ -19,7 +21,6 @@ RSpec.describe Spree::ShipstationController do
 
     context "when the authentication is invalid" do
       it "returns 401" do
-        # Method call updated to use the helper
         stub_basic_auth("some_wrong_username", "not_the_correct-password")
         create(:order_ready_to_ship, store: store)
 
@@ -29,10 +30,12 @@ RSpec.describe Spree::ShipstationController do
     end
 
     context "when the authentication is valid" do
-      it "responds with 200 OK" do
+      before do
         stub_basic_auth(ssi.preferred_username, ssi.preferred_password)
         create(:order_ready_to_ship, store: store)
+      end
 
+      it "responds with 200 OK" do
         get :export,
           params: {
             start_date: 1.day.ago.strftime("%m/%d/%Y %H:%M"),
@@ -45,9 +48,6 @@ RSpec.describe Spree::ShipstationController do
       end
 
       it "generates ShipStation-compliant XML" do
-        stub_basic_auth(ssi.preferred_username, ssi.preferred_password)
-        create(:order_ready_to_ship, store: store)
-
         get :export,
           params: {
             start_date: 100.day.ago.strftime("%m/%d/%Y %H:%M"),
@@ -56,6 +56,13 @@ RSpec.describe Spree::ShipstationController do
             page: 1
           }
 
+        expect(response.body).to pass_validation("spec/fixtures/shipstation_xml_schema.xsd")
+      end
+
+      it "ignores malformed date params and still responds successfully" do
+        get :export, params: {start_date: "not-a-date", end_date: "13/45/9999", format: :xml, page: 1}
+
+        expect(response.status).to eq(200)
         expect(response.body).to pass_validation("spec/fixtures/shipstation_xml_schema.xsd")
       end
     end
@@ -89,25 +96,24 @@ RSpec.describe Spree::ShipstationController do
     end
 
     context "when the authentication is valid" do
-      context "when the shipment can be found" do
-        it "responds with 200 OK" do
-          stub_basic_auth(ssi.preferred_username, ssi.preferred_password)
-          shipment = create(:order_ready_to_ship).shipments.first
+      before do
+        stub_basic_auth(ssi.preferred_username, ssi.preferred_password)
+      end
 
+      context "when the shipment can be found" do
+        let(:shipment) { create(:order_ready_to_ship).shipments.first }
+
+        it "responds with 200 OK" do
           post :shipnotify, params: {
             order_number: shipment.number,
             tracking_number: "123456",
             format: :xml
           }
-          shipment.reload
 
           expect(response.status).to eq(200)
         end
 
         it "updates the shipment" do
-          stub_basic_auth(ssi.preferred_username, ssi.preferred_password)
-          shipment = create(:order_ready_to_ship).shipments.first
-
           post :shipnotify, params: {
             order_number: shipment.number,
             tracking_number: "123456",
@@ -121,19 +127,27 @@ RSpec.describe Spree::ShipstationController do
             shipped_at: an_instance_of(ActiveSupport::TimeWithZone)
           )
         end
+
+        it "responds with 400 Bad Request when the tracking number is missing" do
+          post :shipnotify, params: {
+            order_number: shipment.number,
+            format: :xml
+          }
+
+          expect(response.status).to eq(400)
+          expect(shipment.reload).not_to be_shipped
+        end
       end
 
       context "when the shipment cannot be found" do
         it "responds with 400 Bad Request" do
-          stub_basic_auth(ssi.preferred_username, ssi.preferred_password)
-          shipment = create(:order_ready_to_ship).shipments.first
+          create(:order_ready_to_ship)
 
           post :shipnotify, params: {
             order_number: "ABC123",
             tracking_number: "123456",
             format: :xml
           }
-          shipment.reload
 
           expect(response.status).to eq(400)
         end
