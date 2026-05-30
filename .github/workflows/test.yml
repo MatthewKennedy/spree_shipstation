@@ -14,7 +14,7 @@ jobs:
       fail-fast: false
       matrix:
         ruby: ['3.4']
-        gemfile: [spree_5_2, spree_5_3]
+        gemfile: [spree_5_2, spree_5_3, spree_5_4]
     env:
       BUNDLE_GEMFILE: ${{ github.workspace }}/gemfiles/${{ matrix.gemfile }}.gemfile
       BUNDLE_PATH_RELATIVE_TO_CWD: true
