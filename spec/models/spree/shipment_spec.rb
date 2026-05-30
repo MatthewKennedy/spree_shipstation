@@ -31,16 +31,14 @@ RSpec.describe Spree::Shipment do
   end
 
   describe ".exportable" do
-    context "when capture_at_notification is false" do
-      it "returns ONLY ready shipments from complete orders" do
-        ready_shipment = create(:order_ready_to_ship).shipments.first
-        canceled_order = create(:order_ready_to_ship)
-        canceled_order.shipments.first.cancel!
+    it "returns ONLY ready shipments from complete orders" do
+      ready_shipment = create(:order_ready_to_ship).shipments.first
+      canceled_order = create(:order_ready_to_ship)
+      canceled_order.shipments.first.cancel!
 
-        create(:shipped_order)
+      create(:shipped_order)
 
-        expect(described_class.exportable).to eq([ready_shipment])
-      end
+      expect(described_class.exportable).to eq([ready_shipment])
     end
   end
 end

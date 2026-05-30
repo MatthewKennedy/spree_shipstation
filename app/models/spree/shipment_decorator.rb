@@ -8,6 +8,7 @@ module Spree
           .merge(::Spree::Order.complete)
           .where(state: "ready")
           .order(:updated_at)
+          .includes(:order, inventory_units: {line_item: {variant: [:product, :images, {option_values: :option_type}]}})
       }
 
       base.scope :between, lambda { |from, to|
