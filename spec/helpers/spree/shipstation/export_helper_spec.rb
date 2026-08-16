@@ -3,7 +3,7 @@
 require "spec_helper"
 require "builder"
 
-RSpec.describe SpreeShipstation::ExportHelper do
+RSpec.describe Spree::Shipstation::ExportHelper do
   describe "address rendering" do
     let(:xml) { Builder::XmlMarkup.new }
 

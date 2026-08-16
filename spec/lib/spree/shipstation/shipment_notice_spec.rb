@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe SpreeShipstation::ShipmentNotice do
+RSpec.describe Spree::Shipstation::ShipmentNotice do
   describe "#apply" do
     context "when capture_at_notification is true" do
       before do
@@ -39,7 +39,7 @@ RSpec.describe SpreeShipstation::ShipmentNotice do
             shipment_notice = build_shipment_notice(order.shipments.first, shipment_tracking: "1Z1231234")
 
             expect { shipment_notice.apply }
-              .to raise_error(SpreeShipstation::PaymentError, "Could not process payment #{payment.id}")
+              .to raise_error(Spree::Shipstation::PaymentError, "Could not process payment #{payment.id}")
           end
 
           it "does not ship the shipment" do
@@ -49,7 +49,7 @@ RSpec.describe SpreeShipstation::ShipmentNotice do
 
             shipment_notice = build_shipment_notice(order.shipments.first, shipment_tracking: "1Z1231234")
 
-            expect { shipment_notice.apply }.to raise_error(SpreeShipstation::PaymentError)
+            expect { shipment_notice.apply }.to raise_error(Spree::Shipstation::PaymentError)
             expect(order.shipments.first.reload).not_to be_shipped
           end
         end
@@ -76,14 +76,14 @@ RSpec.describe SpreeShipstation::ShipmentNotice do
       it "raises a ShipmentNotFoundError naming the shipment number" do
         store = create(:store, default: true)
 
-        shipment_notice = SpreeShipstation::ShipmentNotice.new(
+        shipment_notice = Spree::Shipstation::ShipmentNotice.new(
           shipment_number: "DOES-NOT-EXIST",
           shipment_tracking: "1Z1231234",
           store: store
         )
 
         expect { shipment_notice.apply }
-          .to raise_error(SpreeShipstation::ShipmentNotFoundError, /DOES-NOT-EXIST/)
+          .to raise_error(Spree::Shipstation::ShipmentNotFoundError, /DOES-NOT-EXIST/)
       end
     end
 
@@ -94,7 +94,7 @@ RSpec.describe SpreeShipstation::ShipmentNotice do
         shipment_notice = build_shipment_notice(order.shipments.first, shipment_tracking: "")
 
         expect { shipment_notice.apply }
-          .to raise_error(SpreeShipstation::MissingTrackingNumberError, "Tracking number is required")
+          .to raise_error(Spree::Shipstation::MissingTrackingNumberError, "Tracking number is required")
       end
     end
 
@@ -107,7 +107,7 @@ RSpec.describe SpreeShipstation::ShipmentNotice do
         expect(shipment).not_to receive(:ship!)
         allow(order.store.shipments).to receive(:find_by).and_return(shipment)
 
-        shipment_notice = SpreeShipstation::ShipmentNotice.new(
+        shipment_notice = Spree::Shipstation::ShipmentNotice.new(
           shipment_number: shipment.number,
           shipment_tracking: "1Z9999999",
           store: order.store
@@ -129,7 +129,7 @@ RSpec.describe SpreeShipstation::ShipmentNotice do
   end
 
   def build_shipment_notice(shipment, shipment_tracking: "1Z1231234")
-    SpreeShipstation::ShipmentNotice.new(
+    Spree::Shipstation::ShipmentNotice.new(
       shipment_number: shipment.number,
       shipment_tracking: shipment_tracking,
       store: shipment.order.store

@@ -2,7 +2,7 @@
 
 require "spec_helper"
 
-RSpec.describe SpreeShipstation::Export::OrderPresenter do
+RSpec.describe Spree::Shipstation::Export::OrderPresenter do
   let!(:store) { create(:store, default: true) }
   let(:order) { create(:order_ready_to_ship, store: store) }
   let(:shipment) { order.shipments.first }
@@ -36,19 +36,19 @@ RSpec.describe SpreeShipstation::Export::OrderPresenter do
   describe "#order_date and #last_modified" do
     it "formats the completed_at timestamp using the shared date format" do
       expect(presenter.order_date)
-        .to eq(order.completed_at.strftime(SpreeShipstation::ExportHelper::DATE_FORMAT))
+        .to eq(order.completed_at.strftime(Spree::Shipstation::ExportHelper::DATE_FORMAT))
     end
 
     it "uses the latest of completed_at and the shipment's updated_at" do
       latest = [order.completed_at, shipment.updated_at].compact.max
 
-      expect(presenter.last_modified).to eq(latest.strftime(SpreeShipstation::ExportHelper::DATE_FORMAT))
+      expect(presenter.last_modified).to eq(latest.strftime(Spree::Shipstation::ExportHelper::DATE_FORMAT))
     end
   end
 
   describe "#items" do
     it "returns an ItemPresenter per line item with a variant" do
-      expect(presenter.items).to all(be_a(SpreeShipstation::Export::ItemPresenter))
+      expect(presenter.items).to all(be_a(Spree::Shipstation::Export::ItemPresenter))
       expect(presenter.items.size).to eq(shipment.inventory_units.group_by(&:line_item).size)
     end
 
