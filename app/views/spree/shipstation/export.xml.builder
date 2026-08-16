@@ -2,7 +2,7 @@ xml.instruct!
 
 xml.Orders(pages: @pagy.pages) do
   @shipments.each do |shipment|
-    order = SpreeShipstation::Export::OrderPresenter.new(shipment)
+    order = Spree::Shipstation::Export::OrderPresenter.new(shipment)
 
     xml.Order do
       xml.OrderID order.order_id
@@ -20,8 +20,8 @@ xml.Orders(pages: @pagy.pages) do
 
       xml.Customer do
         xml.CustomerCode order.customer_code
-        SpreeShipstation::ExportHelper.bill_address(xml, order.bill_address)
-        SpreeShipstation::ExportHelper.ship_address(xml, order.ship_address)
+        Spree::Shipstation::ExportHelper.bill_address(xml, order.bill_address)
+        Spree::Shipstation::ExportHelper.ship_address(xml, order.ship_address)
       end
 
       xml.Items do

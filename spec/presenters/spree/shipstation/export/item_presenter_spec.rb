@@ -2,7 +2,7 @@
 
 require "spec_helper"
 
-RSpec.describe SpreeShipstation::Export::ItemPresenter do
+RSpec.describe Spree::Shipstation::Export::ItemPresenter do
   let!(:store) { create(:store, default: true) }
   let(:order) { create(:order_ready_to_ship, store: store) }
   let(:shipment) { order.shipments.first }
@@ -21,7 +21,7 @@ RSpec.describe SpreeShipstation::Export::ItemPresenter do
   end
 
   it "builds a Weight value object from the variant" do
-    expect(presenter.weight).to eq(SpreeShipstation::Export::Weight.from_variant(line_item.variant))
+    expect(presenter.weight).to eq(Spree::Shipstation::Export::Weight.from_variant(line_item.variant))
   end
 
   describe "#name" do

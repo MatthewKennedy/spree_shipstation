@@ -1,9 +1,9 @@
-# spree_shipstation
+# spree-shipstation
 
-![CI](https://github.com/MatthewKennedy/spree_shipstation/workflows/CI/badge.svg)
-![Standard Rb](https://github.com/MatthewKennedy/spree_shipstation/workflows/Standard%20Rb/badge.svg)
+![CI](https://github.com/aypex-io/spree-shipstation/workflows/CI/badge.svg)
+![Standard Rb](https://github.com/aypex-io/spree-shipstation/workflows/Standard%20Rb/badge.svg)
 
-The spree_shipstation integration connects your Spree stores with [ShipStation](https://www.shipstation.com), allowing ShipStation to pull shipments from your store, and when a shipment is sent, update the order with a tracking number and mark it as shipped.
+The spree-shipstation integration connects your Spree stores with [ShipStation](https://www.shipstation.com), allowing ShipStation to pull shipments from your store, and when a shipment is sent, update the order with a tracking number and mark it as shipped.
 
 
 ## Installation
@@ -11,7 +11,7 @@ The spree_shipstation integration connects your Spree stores with [ShipStation](
 1. Add this extension to your Gemfile with this line:
 
     ```ruby
-    gem "spree_shipstation", github: "MatthewKennedy/spree_shipstation", tag: "v3.0.0"
+    gem "spree-shipstation"
     ```
 
 2. Install the gem using Bundler

@@ -2,7 +2,7 @@
 
 require "spec_helper"
 
-RSpec.describe SpreeShipstation::Export::Weight do
+RSpec.describe Spree::Shipstation::Export::Weight do
   describe ".from_variant" do
     def weight_for(weight:, unit:)
       variant = double("Variant", weight: weight, weight_unit: unit)

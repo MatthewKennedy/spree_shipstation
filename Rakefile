@@ -17,7 +17,10 @@ end
 
 desc "Generates a dummy app for testing"
 task :test_app do
-  ENV["LIB_NAME"] = "spree_shipstation"
+  # Must be the require path, not the gem name: Spree's common:test_app does a
+  # literal `require ENV['LIB_NAME']` and templates the same string into the
+  # generated spec/dummy/config/application.rb.
+  ENV["LIB_NAME"] = "spree/shipstation"
   Rake::Task["extension:test_app"].execute(
     install_admin: true
   )
