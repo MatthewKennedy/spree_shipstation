@@ -1,0 +1,46 @@
+---
+# Publishes to RubyGems.org via Trusted Publishing (OIDC) when a v* tag is
+# pushed. There is no API token or secret involved: GitHub mints a short-lived
+# identity token and RubyGems.org exchanges it for a push-scoped credential.
+#
+# Requires a trusted publisher registered on RubyGems.org for this gem with:
+#   owner       aypex-io
+#   repository  spree-shipstation
+#   workflow    release.yml
+#   environment release
+#
+# rubygems/release-gem runs `bundle exec rake release`. Bundler's GemHelper
+# skips tagging when the tag already exists, which it does here because the tag
+# push is what triggered the run.
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  push:
+    name: Push gem to RubyGems.org
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+      id-token: write
+
+    # Must match the environment registered on the RubyGems trusted publisher.
+    environment: release
+
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          # release-gem installs its own git credentials for the release task.
+          persist-credentials: false
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ruby
+          bundler-cache: true
+
+      - uses: rubygems/release-gem@v1
