@@ -2,7 +2,7 @@
 
 All notable changes to this project are documented in this file.
 
-## 1.0.0
+## 5.0.0
 
 First public release on RubyGems, as `spree-shipstation`.
 
@@ -12,7 +12,12 @@ published under it — that name is held on RubyGems by an unrelated, abandoned
 path, and the Ruby namespace agree with each other, per the RubyGems convention
 that a dash denotes a gem living under another gem's namespace.
 
-If you tracked this repository from git before 1.0.0, note:
+**Versioning:** the major version tracks Spree's major version — `spree-shipstation`
+5.x supports Spree 5.x. This release therefore starts at 5.0.0 rather than 1.0.0,
+and continues the repository's existing tag lineage (which reached `v3.0.0` before
+the rename).
+
+If you tracked this repository from git before 5.0.0, note:
 
 - **Gem name** is `spree-shipstation`. `gem "spree-shipstation"` is all a host app
   needs — `Bundler.require` resolves through a shim at `lib/spree-shipstation.rb`.

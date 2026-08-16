@@ -2,7 +2,8 @@
 
 module Spree
   module Shipstation
-    VERSION = "1.0.0"
+    # Major version tracks Spree's major version: 5.x supports Spree 5.x.
+    VERSION = "5.0.0"
 
     def self.version
       Gem::Version.new(VERSION)
