@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Configure Rails Environment
 ENV["RAILS_ENV"] = "test"
 
@@ -17,4 +19,4 @@ SimpleCov.minimum_coverage(line: 90) if defined?(SimpleCov)
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
-Dir[File.join(File.dirname(__FILE__), "support/**/*.rb")].sort.each { |f| require f }
+Dir[File.join(__dir__, "support/**/*.rb")].each { |f| require f }

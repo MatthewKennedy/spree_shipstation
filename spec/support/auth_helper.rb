@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module AuthHelper
   def stub_basic_auth(username, password)
     request.headers["Authorization"] =

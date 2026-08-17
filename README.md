@@ -118,3 +118,9 @@ bundle exec gem release
 ## License
 
 Copyright (c) 2021-2026 Matthew Kennedy, released under the MIT License.
+
+## Code of Conduct
+
+Everyone interacting in this project's codebases, issue trackers, and
+communication channels is expected to follow the [code of
+conduct](CODE_OF_CONDUCT.md).

@@ -2,14 +2,31 @@
 
 module Spree
   module Shipstation
+    ##
+    # Applies a ShipStation shipnotify payload to a Spree shipment.
+    #
+    # Looks up the shipment by number on the given store and, inside a
+    # transaction: captures pending payments if +auto_capture_on_dispatch+ is
+    # on, writes the tracking number, and ships the shipment unless it is
+    # already shipped.
+    #
     class ShipmentNotice
       attr_reader :shipment_number, :shipment_tracking, :store
 
       class << self
+        ##
+        # Builds a notice from the shipnotify webhook params.
+        #
+        # ShipStation's webhook param is named +order_number+ but its value is
+        # the shipment number — it mirrors the +<OrderNumber>+ field from the
+        # export XML.
+        #
+        # @param params [Hash] webhook params including +:order_number+ and +:tracking_number+
+        # @param store [Spree::Store] store that owns the shipment
+        # @return [Spree::Shipstation::ShipmentNotice]
+        #
         def from_payload(params, store:)
           new(
-            # ShipStation's webhook param is named `order_number` but its value is the
-            # shipment number — it mirrors the <OrderNumber> field from the export XML.
             shipment_number: params[:order_number],
             shipment_tracking: params[:tracking_number],
             store: store
@@ -17,12 +34,25 @@ module Spree
         end
       end
 
+      ##
+      # @param shipment_number [String] Spree shipment number
+      # @param shipment_tracking [String] carrier tracking number
+      # @param store [Spree::Store] store that owns the shipment
+      #
       def initialize(shipment_number:, shipment_tracking:, store:)
         @shipment_number = shipment_number
         @shipment_tracking = shipment_tracking
         @store = store
       end
 
+      ##
+      # Captures pending payments if configured, writes tracking, and ships.
+      #
+      # @return [Spree::Shipment] the updated shipment
+      # @raise [Spree::Shipstation::ShipmentNotFoundError] when the shipment is missing
+      # @raise [Spree::Shipstation::MissingTrackingNumberError] when tracking is blank
+      # @raise [Spree::Shipstation::PaymentError] when a pending payment cannot be captured
+      #
       def apply
         raise ShipmentNotFoundError, shipment_number unless shipment
 

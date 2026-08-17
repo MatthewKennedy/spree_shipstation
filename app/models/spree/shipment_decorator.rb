@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
 module Spree
+  ##
+  # Adds +exportable+ and +between+ scopes to +Spree::Shipment+ so the export
+  # endpoint can select ready shipments in a date window.
+  #
   module ShipmentDecorator
     def self.prepended(base)
       base.scope :exportable, lambda {
