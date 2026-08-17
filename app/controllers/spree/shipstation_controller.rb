@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 module Spree
+  ##
+  # HTTP endpoints ShipStation polls for ready shipments and posts ship notices to.
+  #
   class ShipstationController < Spree::BaseController
     include Spree::IntegrationsHelper
     include Pagy::Method
@@ -10,6 +13,11 @@ module Spree
     before_action :ensure_active_integration
     before_action :authenticate_shipstation
 
+    ##
+    # XML export of ready shipments for ShipStation to pull.
+    #
+    # @return [void]
+    #
     def export
       @pagy, @shipments = pagy(
         current_store.shipments
@@ -24,6 +32,11 @@ module Spree
       end
     end
 
+    ##
+    # Applies a ship notification from ShipStation and marks the shipment shipped.
+    #
+    # @return [void]
+    #
     def shipnotify
       Shipstation::ShipmentNotice.from_payload(params.permit(:order_number, :tracking_number).to_h, store: current_store).apply
       head :ok

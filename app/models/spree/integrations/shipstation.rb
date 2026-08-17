@@ -2,6 +2,9 @@
 
 module Spree
   module Integrations
+    ##
+    # Per-store ShipStation credentials registered with Spree's integration framework.
+    #
     class Shipstation < Spree::Integration
       preference :username, :string
 
@@ -45,14 +48,29 @@ module Spree
         },
         allow_blank: true
 
+      ##
+      # Admin grouping for this integration.
+      #
+      # @return [String]
+      #
       def self.integration_group
         "Shipping"
       end
 
+      ##
+      # Path to the logo shown in the admin integrations list.
+      #
+      # @return [String]
+      #
       def self.icon_path
         "integration_icons/shipstation-logo.webp"
       end
 
+      ##
+      # Translated brand name shown in the admin integrations list.
+      #
+      # @return [String]
+      #
       def self.integration_name
         Spree.t("admin.integrations.shipstation.brand_name")
       end

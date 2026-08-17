@@ -2,6 +2,9 @@
 
 module Spree
   module Shipstation
+    ##
+    # Rails engine that loads decorator files and registers ShipStation assets.
+    #
     class Engine < ::Rails::Engine
       require "spree/core"
       isolate_namespace Spree

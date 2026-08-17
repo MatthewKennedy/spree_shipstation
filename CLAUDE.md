@@ -50,6 +50,9 @@ bundle exec standardrb
 bundle exec standardrb --fix
 ```
 
+Public Ruby classes and methods use YARD `##` blocks. Specs follow one
+expectation per example.
+
 ## Architecture
 
 ### Integration Registration

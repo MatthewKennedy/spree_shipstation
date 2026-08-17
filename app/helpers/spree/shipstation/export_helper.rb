@@ -4,13 +4,30 @@ require "builder"
 
 module Spree
   module Shipstation
+    ##
+    # Builds ShipStation address XML nodes for the export template.
+    #
     module ExportHelper
       DATE_FORMAT = "%m/%d/%Y %H:%M"
 
+      ##
+      # Emits a +BillTo+ node without street-level fields.
+      #
+      # @param xml [Builder::XmlMarkup] the XML builder
+      # @param address [Spree::Address, NilClass] billing address
+      # @return [String, NilClass]
+      #
       def self.bill_address(xml, address)
         render_address(xml, address, "BillTo", include_street: false)
       end
 
+      ##
+      # Emits a +ShipTo+ node including street-level fields.
+      #
+      # @param xml [Builder::XmlMarkup] the XML builder
+      # @param address [Spree::Address, NilClass] shipping address
+      # @return [String, NilClass]
+      #
       def self.ship_address(xml, address)
         render_address(xml, address, "ShipTo", include_street: true)
       end

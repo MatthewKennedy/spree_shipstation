@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :shipstation_integration, class: Spree::Integrations::Shipstation do
     active { true }
